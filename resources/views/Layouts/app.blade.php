@@ -42,10 +42,36 @@
         
         /* Background element */
         .bg-pattern {
+            position: relative;
+        }
+
+        /* Add this to prevent overflow scrolling */
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+        }
+
+        .bg-pattern::before {
+            content: '';
+            position: fixed; /* Change to fixed to prevent scrolling with content */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background-image: 
                 linear-gradient(to bottom, rgba(18, 18, 18, 0.95), rgba(18, 18, 18, 0.9)),
                 url('/images/bg-pattern.png');
             background-repeat: repeat;
+            transform: rotate(15deg);
+            transform-origin: center center;
+            z-index: -1;
+            pointer-events: none;
+            /* Expand beyond viewport to allow for rotation without gaps */
+            width: 150%;
+            height: 150%;
+            margin-left: -25%;
+            margin-top: -25%;
         }
         
         .bg-noise {
