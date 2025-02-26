@@ -1,5 +1,4 @@
-<!-- resources/views/members/index.blade.php -->
-@extends('layouts.app')
+@extends('Layouts.app')
 
 @section('title', 'Members')
 
