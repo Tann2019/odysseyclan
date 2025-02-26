@@ -1,84 +1,181 @@
-<!-- resources/views/index.blade.php -->
-@extends('layouts.app')
+@extends('Layouts.app')
 
 @section('title', 'Home')
 
 @section('content')
-<div class="hero-section d-flex align-items-center text-center">
-    <div class="container">
-        <h1 class="display-2 mb-4" style="font-weight: 700; color: var(--spartan-gold);">ODYSSEY</h1>
-        <p class="lead mb-4">Where legends are forged in the heat of battle</p>
-        <a href="/join" class="btn btn-lg px-5" style="background-color: var(--spartan-red); color: var(--spartan-gold); border: 2px solid var(--spartan-gold);">
-            Join the Legion
-        </a>
-    </div>
-</div>
-
-<div class="container my-5">
-    <!-- Featured Members Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center mb-4">
-            <h2 style="color: var(--spartan-gold)">Elite Warriors</h2>
-            <div class="w-25 mx-auto" style="height: 3px; background-color: var(--spartan-red);"></div>
-        </div>
-        <div class="col-12">
-            <div class="row" id="featured-members">
-                <!-- JavaScript will populate this section -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Clan Stats Section -->
-    <div class="row mb-5">
-        <div class="col-md-4 text-center mb-4 mb-md-0">
-            <div class="p-4 member-card">
-                <h3 class="display-4 text-warning" id="total-members">0</h3>
-                <p class="text-uppercase">Active Warriors</p>
-            </div>
-        </div>
-        <div class="col-md-4 text-center mb-4 mb-md-0">
-            <div class="p-4 member-card">
-                <h3 class="display-4 text-warning" id="total-victories">0</h3>
-                <p class="text-uppercase">Victories</p>
-            </div>
-        </div>
-        <div class="col-md-4 text-center">
-            <div class="p-4 member-card">
-                <h3 class="display-4 text-warning" id="achievements">0</h3>
-                <p class="text-uppercase">Achievements</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Latest News Section -->
-    <div class="row mb-5">
-        <div class="col-12 text-center mb-4">
-            <h2 style="color: var(--spartan-gold)">Battle Reports</h2>
-            <div class="w-25 mx-auto" style="height: 3px; background-color: var(--spartan-red);"></div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="member-card p-3 h-100">
-                <div class="small text-warning mb-2">2024-04-08</div>
-                <h4>Tournament Victory</h4>
-                <p class="mb-0">Odyssey clan dominates in the latest championship, securing first place.</p>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="member-card p-3 h-100">
-                <div class="small text-warning mb-2">2024-04-07</div>
-                <h4>New Recruits Welcome</h4>
-                <p class="mb-0">Join our next training session and prove your worth in battle.</p>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="member-card p-3 h-100">
-                <div class="small text-warning mb-2">2024-04-06</div>
-                <h4>Strategy Meeting</h4>
-                <p class="mb-0">Weekly tactical briefing scheduled for all squad leaders.</p>
+<div class="hero-section">
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-8 col-md-10" data-aos="fade-up">
+                <h1 class="hero-title">WELCOME TO <span class="text-accent">ODYSSEY</span></h1>
+                <p class="hero-subtitle">Where legends are forged in the heat of battle</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="https://discord.gg/hwkZtRZGJs" class="btn hero-btn" target="_blank">
+                        <i class="fas fa-user-plus me-2"></i> Join the Legion
+                    </a>
+                    <a href="#about" class="btn btn-outline">
+                        <i class="fas fa-info-circle me-2"></i> Learn More
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<section class="py-5" id="about">
+    <div class="container my-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+                <h2 class="section-title text-start">WHO WE ARE</h2>
+                <p class="lead text-accent mb-4">A brotherhood of elite gamers</p>
+                <p>Odyssey is more than just a gaming clan - we are a brotherhood of elite gamers united by our passion for excellence and victory. Founded in 2020, our clan has risen through the ranks to establish itself as a formidable force in competitive gaming.</p>
+                <p>Our members are carefully selected based on skill, dedication, and sportsmanship. We compete in various tournaments and leagues across multiple game titles, always striving to uphold our reputation for tactical brilliance and unwavering teamwork.</p>
+                <div class="d-flex gap-4 mt-4">
+                    <div class="text-center">
+                        <h3 class="text-accent">50+</h3>
+                        <p class="text-uppercase">Active Members</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-accent">25+</h3>
+                        <p class="text-uppercase">Tournament Wins</p>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-accent">4+</h3>
+                        <p class="text-uppercase">Game Titles</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <img src="/images/team-photo.jpg" alt="Odyssey Team" class="img-fluid rounded" style="border: 3px solid var(--accent);">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-dark-gray">
+    <div class="container my-5">
+        <h2 class="section-title" data-aos="fade-up">FEATURED MEMBERS</h2>
+        
+        <div class="row" id="featured-members">
+            <!-- Will be populated via JavaScript/API -->
+        </div>
+        
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="/members" class="btn btn-outline">
+                <i class="fas fa-users me-2"></i> View All Members
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container my-5">
+        <h2 class="section-title" data-aos="fade-up">UPCOMING EVENTS</h2>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Tournament</span>
+                        <span class="badge bg-danger">3 Days Left</span>
+                    </div>
+                    <img src="/images/event1.jpg" class="card-img-top" alt="Tournament">
+                    <div class="card-body">
+                        <h5 class="card-title">Spring Championship 2025</h5>
+                        <p class="card-text">Join us for our quarterly championship where clan members compete for the title of Odyssey Champion.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span><i class="far fa-calendar-alt me-2"></i>Feb 28, 2025</span>
+                            <a href="/events/1" class="btn btn-sm btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Training</span>
+                        <span class="badge bg-success">Weekly</span>
+                    </div>
+                    <img src="/images/event2.jpg" class="card-img-top" alt="Training">
+                    <div class="card-body">
+                        <h5 class="card-title">Strategy Training Sessions</h5>
+                        <p class="card-text">Weekly training sessions focused on improving team coordination and tactical awareness.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span><i class="far fa-calendar-alt me-2"></i>Every Thursday</span>
+                            <a href="/events/2" class="btn btn-sm btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100 card-highlight">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Special</span>
+                        <span class="badge bg-warning text-dark">Featured</span>
+                    </div>
+                    <img src="/images/event3.jpg" class="card-img-top" alt="Community Stream">
+                    <div class="card-body">
+                        <h5 class="card-title">Anniversary Community Stream</h5>
+                        <p class="card-text">Join us for a special stream celebrating our 5th anniversary with giveaways and special guests.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span><i class="far fa-calendar-alt me-2"></i>Mar 15, 2025</span>
+                            <a href="/events/3" class="btn btn-sm btn-outline">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="/events" class="btn btn-outline">
+                <i class="fas fa-calendar-alt me-2"></i> View All Events
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-dark-gray">
+    <div class="container my-5">
+        <h2 class="section-title" data-aos="fade-up">LATEST NEWS</h2>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="small text-accent mb-2">February 25, 2025</div>
+                        <h5 class="card-title">Tournament Victory</h5>
+                        <p class="card-text">Odyssey clan dominates in the latest championship, securing first place against 32 other teams.</p>
+                        <a href="/news/1" class="btn btn-sm btn-outline">Read More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="small text-accent mb-2">February 20, 2025</div>
+                        <h5 class="card-title">New Recruits Welcome</h5>
+                        <p class="card-text">Join our next training session and prove your worth in battle. We're looking for new talent to join our ranks.</p>
+                        <a href="/news/2" class="btn btn-sm btn-outline">Read More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="small text-accent mb-2">February 15, 2025</div>
+                        <h5 class="card-title">Strategy Meeting</h5>
+                        <p class="card-text">Weekly tactical briefing scheduled for all squad leaders.</p>
+                        <a href="/news/3" class="btn btn-sm btn-outline">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- JavaScript for dynamic content -->
 <script>
