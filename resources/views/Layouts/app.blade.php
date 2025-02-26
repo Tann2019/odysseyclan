@@ -147,11 +147,12 @@
                         url('/images/hero-bg.png');
             background-size: cover;
             background-position: center;
-            min-height: 600px;
+            min-height: 700px; /* Increased height */
             display: flex;
             align-items: center;
             border-bottom: 4px solid var(--accent);
             overflow: hidden;
+            background-attachment: fixed; /* Parallax effect */
         }
         
         .hero-content {
