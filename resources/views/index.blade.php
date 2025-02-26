@@ -7,9 +7,9 @@
     <div class="container hero-content">
         <div class="row">
             <div class="col-lg-8 col-md-10" data-aos="fade-up">
-                <h1 class="hero-title">WELCOME TO <span class="text-accent">ODYSSEY</span></h1>
+                <h1 class="hero-title">WELCOME TO <span>ODYSSEY</span></h1>
                 <p class="hero-subtitle">Where legends are forged in the heat of battle</p>
-                <div class="d-flex flex-wrap gap-3">
+                <div class="hero-btn-container d-flex flex-wrap gap-3">
                     <a href="https://discord.gg/hwkZtRZGJs" class="btn hero-btn" target="_blank">
                         <i class="fas fa-user-plus me-2"></i> Join the Legion
                     </a>

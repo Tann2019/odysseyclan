@@ -141,12 +141,13 @@
         }
         
         /* Hero Section */
+        /* Hero Section */
         .hero-section {
             position: relative;
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
                         url('/images/hero-bg.png');
             background-size: cover;
-            background-position: center;
+            background-position:center; /* Focus on right side */
             min-height: 700px; /* Increased height */
             display: flex;
             align-items: center;
@@ -155,22 +156,64 @@
             background-attachment: fixed; /* Parallax effect */
         }
         
+        /* Add responsive adjustments for mobile */
+        @media (max-width: 767.98px) {
+            .hero-section {
+            min-height: 500px; /* Decreased height */
+            background-position: 130% center; /* Adjust horizontal and vertical positioning on mobile */
+            background-attachment: scroll; /* Disable parallax on mobile for better performance */
+            }
+        }
+        
         .hero-content {
             position: relative;
             z-index: 10;
         }
         
         .hero-title {
-            font-size: 4rem;
-            font-weight: 700;
+            font-size: 5rem;
+            font-weight: 800;
             margin-bottom: 1.5rem;
             text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            line-height: 0.9;
+            letter-spacing: -1px;
+        }
+
+        .hero-title span {
+            display: block;
+            font-size: 7rem;
+            background: linear-gradient(45deg, var(--accent) 0%, #ffffff 50%, var(--accent) 100%);
+            background-size: 200% auto;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
         }
         
         .hero-subtitle {
             font-size: 1.5rem;
             margin-bottom: 2rem;
             opacity: 0.9;
+            font-style: italic;
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-subtitle::before,
+        .hero-subtitle::after {
+            content: '';
+            height: 2px;
+            width: 30px;
+            background: var(--accent);
+            display: inline-block;
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+
+        .hero-btn-container {
+            margin-top: 2rem;
+            transform: skewX(-5deg);
         }
         
         .hero-btn {
@@ -181,10 +224,28 @@
             font-weight: 600;
             text-transform: uppercase;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .hero-btn:hover::before {
+            left: 0;
         }
         
         .hero-btn:hover {
-            background-color: var(--accent);
             color: var(--dark);
             transform: translateY(-3px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
@@ -423,17 +484,31 @@
         .floating {
             animation: float 3s ease-in-out infinite;
         }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
         
         /* Media Queries */
         @media (max-width: 991.98px) {
             .hero-title {
-                font-size: 3rem;
+                font-size: 4rem;
+            }
+            
+            .hero-title span {
+                font-size: 5.5rem;
             }
         }
         
         @media (max-width: 767.98px) {
             .hero-title {
-                font-size: 2.5rem;
+                font-size: 3rem;
+            }
+            
+            .hero-title span {
+                font-size: 4rem;
             }
             
             .section-title {
@@ -443,7 +518,16 @@
         
         @media (max-width: 575.98px) {
             .hero-title {
-                font-size: 2rem;
+                font-size: 2.5rem;
+            }
+            
+            .hero-title span {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle::before,
+            .hero-subtitle::after {
+                width: 15px;
             }
             
             .hero-subtitle {
