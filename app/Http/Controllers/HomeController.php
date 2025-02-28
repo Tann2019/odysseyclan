@@ -174,7 +174,7 @@ class HomeController extends Controller
                 'time' => '18:00 UTC',
                 'duration' => '3 hours',
                 'requirements' => [
-                    'Minimum age: 18+',
+                    'Minimum age: 18+ (mandatory)',
                     'Voice communication required',
                     'Previous competitive experience preferred'
                 ],
@@ -297,7 +297,7 @@ class HomeController extends Controller
     public function join()
     {
         $requirements = [
-            'Age 16+',
+            'Age 18+ (mandatory)',
             'Active participation in clan events',
             'Positive attitude and teamwork',
             'Discord participation',
@@ -327,7 +327,7 @@ class HomeController extends Controller
             ],
             [
                 'question' => 'Is there an age requirement?',
-                'answer' => 'Yes, our members must be at least 16 years old due to the competitive nature of our activities and community standards.'
+                'answer' => 'Yes, our members must be at least 18 years old due to the competitive nature of our activities and community standards.'
             ],
             [
                 'question' => 'Can I join if I play on console instead of PC?',

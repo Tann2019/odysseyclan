@@ -8,6 +8,11 @@
         <div class="col-md-8 offset-md-2">
             <h1 class="section-title" data-aos="fade-up">JOIN THE ODYSSEY</h1>
             
+            <div class="alert alert-warning mb-4" data-aos="fade-up">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>IMPORTANT:</strong> You must be at least 18 years old to join Odyssey Clan. By registering, you confirm that you meet this age requirement.
+            </div>
+            
             <div class="card bg-dark-gray border-accent" data-aos="fade-up">
                 <div class="card-header bg-dark-gray border-bottom border-accent">
                     <h4 class="text-accent mb-0">Create Your Account</h4>

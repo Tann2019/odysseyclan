@@ -9,6 +9,10 @@
     <div class="row mb-5">
         <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
             <p class="lead">Ready to become part of an elite gaming brotherhood? The Odyssey Clan is always seeking talented and dedicated warriors to join our ranks.</p>
+            <div class="alert alert-warning mt-3">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>IMPORTANT:</strong> You must be at least 18 years old to join Odyssey Clan. This requirement is strictly enforced for all members.
+            </div>
         </div>
     </div>
     
@@ -59,7 +63,7 @@
                                     <li class="mb-2"><span class="badge bg-primary">Commander</span> - Clan leader</li>
                                     <li class="mb-2"><span class="badge bg-primary">Captain</span> - Division leaders</li>
                                 </ul>
-                                <p class="small">These ranks are earned through dedication, leadership, and consistent contribution to the clan over an extended period.</p>
+                                <p class="small text-white">These ranks are earned through dedication, leadership, and consistent contribution to the clan over an extended period.</p>
                             </div>
                         </div>
                         
@@ -72,7 +76,7 @@
                                 <ul class="list-unstyled">
                                     <li class="mb-2"><span class="badge bg-danger">Veteran</span> - Senior members</li>
                                 </ul>
-                                <p class="small">Veterans have proven their worth in multiple tournaments and have been loyal clan members for at least 6 months. They often mentor newer members.</p>
+                                <p class="small text-white">Veterans have proven their worth in multiple tournaments and have been loyal clan members for at least 6 months. They often mentor newer members.</p>
                             </div>
                         </div>
                         
@@ -86,7 +90,7 @@
                                     <li class="mb-2"><span class="badge bg-warning text-dark">Warrior</span> - Established members</li>
                                     <li class="mb-2"><span class="badge bg-secondary">Recruit</span> - New members</li>
                                 </ul>
-                                <p class="small">All new members join as Recruits and can progress to Warrior status by actively participating in clan events and demonstrating their skills.</p>
+                                <p class="small text-white">All new members join as Recruits and can progress to Warrior status by actively participating in clan events and demonstrating their skills.</p>
                             </div>
                         </div>
                     </div>
@@ -144,7 +148,7 @@
                         </button>
                     </h2>
                     <div id="collapse{{ $index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $index }}" data-bs-parent="#faqAccordion">
-                        <div class="accordion-body">
+                        <div class="accordion-body text-white">
                             {{ $faq['answer'] }}
                         </div>
                     </div>
@@ -158,8 +162,8 @@
 <!-- Requirements Modal -->
 <div class="modal fade" id="requirementsModal" tabindex="-1" aria-labelledby="requirementsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark-gray">
-            <div class="modal-header border-bottom border-accent">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h5 class="modal-title text-accent" id="requirementsModalLabel">Membership Requirements</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -168,14 +172,22 @@
                     @foreach($requirements as $requirement)
                     <li class="list-group-item bg-transparent text-white border-light">
                         <i class="fas fa-check-circle text-accent me-2"></i> {{ $requirement }}
+                        @if(str_contains($requirement, '18+'))
+                            <div class="mt-1 ps-4 text-warning small fw-bold">
+                                Age verification may be required during the application process.
+                            </div>
+                        @endif
                     </li>
                     @endforeach
                 </ul>
                 <div class="alert alert-warning mt-3">
                     <i class="fas fa-info-circle me-2"></i> Meeting these requirements doesn't guarantee acceptance. Final decisions are made by clan leadership.
                 </div>
+                <div class="alert alert-danger mt-3">
+                    <i class="fas fa-exclamation-triangle me-2"></i> <strong>NOTE:</strong> The age requirement of 18+ is strictly enforced. Misrepresenting your age will result in immediate removal from the clan.
+                </div>
             </div>
-            <div class="modal-footer border-top border-accent">
+            <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <a href="https://discord.gg/odyssey" class="btn btn-accent" target="_blank">
                     <i class="fab fa-discord me-2"></i> Apply Now
