@@ -50,7 +50,7 @@
                             @error('discord_id')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
-                            <div class="form-text text-muted">
+                            <div class="form-text text-white">
                                 This will be used to verify your identity on our Discord server.
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             @error('username')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <div class="form-text text-muted">
+                            <div class="form-text text-white">
                                 This is the name that will be displayed on the members list.
                             </div>
                         </div>
@@ -100,7 +100,7 @@
             </div>
             
             <div class="mt-4 text-center" data-aos="fade-up">
-                <p class="text-muted">
+                <p class="text-white">
                     By registering, you agree to our Terms of Service and Privacy Policy.
                 </p>
                 <p>
