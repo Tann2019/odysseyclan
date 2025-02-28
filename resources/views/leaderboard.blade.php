@@ -42,8 +42,8 @@
                             $achievements = $member->achievements ?? [];
                             $score = count($achievements) * 100;
                         @endphp
-                        <tr class="{{ $index < 3 ? 'table-warning text-dark' : '' }}">
-                            <td class="align-middle">
+                        <tr class="{{ $index < 3 ? 'table-warning' : '' }}">
+                            <td class="align-middle {{ $index < 3 ? 'text-dark' : '' }}">
                                 @if($index === 0)
                                     <div class="d-flex justify-content-center">
                                         <span class="badge bg-warning text-dark p-2" style="font-size: 1.2rem;">
@@ -66,14 +66,14 @@
                                     <div class="text-center">{{ $index + 1 }}</div>
                                 @endif
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle {{ $index < 3 ? 'text-dark' : '' }}">
                                 <img src="{{ $member->avatar_url ?? '/images/default-avatar.png' }}" alt="{{ $member->username }}" class="rounded-circle" width="50" height="50" style="object-fit: cover; {{ $index < 3 ? 'border: 3px solid gold;' : '' }}">
                             </td>
-                            <td class="align-middle">{{ $member->username }}</td>
-                            <td class="align-middle">
+                            <td class="align-middle {{ $index < 3 ? 'text-dark' : '' }}">{{ $member->username }}</td>
+                            <td class="align-middle {{ $index < 3 ? 'text-dark' : '' }}">
                                 <span class="badge bg-{{ $index < 3 ? 'dark' : 'danger' }} {{ $index < 3 ? 'text-warning' : '' }}">{{ $member->rank }}</span>
                             </td>
-                            <td class="align-middle">
+                            <td class="align-middle {{ $index < 3 ? 'text-dark' : '' }}">
                                 <div class="d-flex flex-wrap gap-1">
                                     @foreach(array_slice($achievements, 0, 3) as $achievement)
                                         <span class="badge bg-success">{{ $achievement }}</span>
@@ -83,7 +83,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="align-middle text-center fw-bold">{{ $score }}</td>
+                            <td class="align-middle text-center fw-bold {{ $index < 3 ? 'text-dark' : '' }}">{{ $score }}</td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -92,7 +92,7 @@
                             @error('avatar_url')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <div class="form-text text-muted">
+                            <div class="form-text text-white opacity-75">
                                 Enter a URL to an image that will be used as your profile picture.
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <div class="form-text text-muted">
+                            <div class="form-text text-white opacity-75">
                                 Leave blank if you don't want to change your password.
                             </div>
                         </div>

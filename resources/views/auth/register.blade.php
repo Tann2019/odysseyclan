@@ -50,7 +50,7 @@
                             @error('discord_id')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
-                            <div class="form-text text-white">
+                            <div class="form-text text-white opacity-75">
                                 This will be used to verify your identity on our Discord server.
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             @error('username')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <div class="form-text text-white">
+                            <div class="form-text text-white opacity-75">
                                 This is the name that will be displayed on the members list.
                             </div>
                         </div>

@@ -312,6 +312,7 @@
         
         .card-body {
             background-color: var(--dark-gray);
+            color: var(--text);
         }
         
         /* Member Cards */
@@ -435,6 +436,71 @@
         /* Utils */
         .text-accent {
             color: var(--accent) !important;
+        }
+        
+        /* Form elements */
+        .form-label {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .form-text {
+            color: var(--text) !important;
+            opacity: 0.8;
+        }
+        
+        .form-control, .form-select {
+            background-color: var(--mid-gray);
+            color: var(--text);
+            border-color: var(--light-gray);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: var(--mid-gray);
+            color: var(--text);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+        }
+        
+        /* Table styles */
+        .table-dark {
+            --bs-table-bg: var(--dark-gray);
+            --bs-table-color: var(--text);
+            color: var(--text);
+        }
+        
+        .table-warning {
+            color: var(--dark) !important;
+        }
+        
+        .table-hover > tbody > tr:hover > * {
+            color: var(--text);
+            background-color: var(--mid-gray);
+        }
+        
+        .table-warning.table-hover > tbody > tr:hover > * {
+            color: var(--dark) !important;
+        }
+        
+        /* Alert styles */
+        .alert-success {
+            color: #0f5132;
+            background-color: #d1e7dd;
+        }
+        
+        .alert-warning {
+            color: #664d03;
+            background-color: #fff3cd;
+        }
+        
+        .alert-danger {
+            color: #842029;
+            background-color: #f8d7da;
+        }
+        
+        .alert-info {
+            color: #055160;
+            background-color: #cff4fc;
         }
         
         .btn-primary {
