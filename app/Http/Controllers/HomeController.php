@@ -242,7 +242,7 @@ class HomeController extends Controller
     {
         // Get members sorted by achievements count (for demonstration)
         $members = Member::all()->sortByDesc(function($member) {
-            return count(json_decode($member->achievements ?? '[]', true));
+            return count($member->achievements ?? []);
         })->take(20)->values();
         
         return view('leaderboard', compact('members'));

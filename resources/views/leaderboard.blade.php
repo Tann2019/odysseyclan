@@ -39,7 +39,7 @@
                     <tbody>
                         @foreach($members as $index => $member)
                         @php
-                            $achievements = json_decode($member->achievements ?? '[]', true);
+                            $achievements = $member->achievements ?? [];
                             $score = count($achievements) * 100;
                         @endphp
                         <tr class="{{ $index < 3 ? 'table-warning text-dark' : '' }}">
