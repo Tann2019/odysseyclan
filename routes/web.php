@@ -64,6 +64,13 @@ Route::middleware('auth')->group(function () {
     // Admin Routes
     Route::middleware('admin')->group(function () {
         Route::prefix('admin')->group(function () {
+            // Admin dashboard
+            Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+            
+            // Admin management
+            Route::get('/admins/create', [App\Http\Controllers\AdminController::class, 'showCreateAdmin'])->name('admin.admins.create');
+            Route::post('/admins', [App\Http\Controllers\AdminController::class, 'storeAdmin'])->name('admin.admins.store');
+            
             // Member management
             Route::get('/members', [App\Http\Controllers\MemberController::class, 'adminIndex'])->name('admin.members.index');
             Route::get('/members/{id}/edit', [App\Http\Controllers\MemberController::class, 'edit'])->name('admin.members.edit');

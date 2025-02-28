@@ -684,6 +684,12 @@
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('profile.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
                                 <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user-edit me-2"></i> Edit Profile</a></li>
+                                
+                                @if(Auth::user()->isAdmin())
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-success" href="{{ route('admin.dashboard') }}"><i class="fas fa-user-shield me-2"></i> Admin Panel</a></li>
+                                @endif
+                                
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
