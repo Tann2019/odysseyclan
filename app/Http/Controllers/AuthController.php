@@ -45,11 +45,13 @@ class AuthController extends Controller
             'rank' => 'recruit', // Default rank
             'achievements' => [],
             'is_active' => true,
+            'verification_status' => 'pending',
+            'verification_notes' => 'New registration awaiting verification',
         ]);
         
         Auth::login($user);
         
-        return redirect()->route('home')->with('success', 'Welcome to Odyssey Clan!');
+        return redirect()->route('verification.pending');
     }
     
     /**

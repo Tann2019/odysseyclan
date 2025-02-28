@@ -16,12 +16,16 @@ class Member extends Model
         'description',
         'achievements',
         'is_active',
-        'user_id'
+        'user_id',
+        'verification_status',
+        'verification_notes',
+        'verified_at'
     ];
 
     protected $casts = [
         'achievements' => 'array',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'verified_at' => 'datetime'
     ];
     
     /**
@@ -86,5 +90,61 @@ class Member extends Model
         }
         
         return true;
+    }
+    
+    /**
+     * Check if member is pending verification
+     */
+    public function isPending()
+    {
+        return $this->verification_status === 'pending';
+    }
+    
+    /**
+     * Check if member is verified
+     */
+    public function isVerified()
+    {
+        return $this->verification_status === 'verified';
+    }
+    
+    /**
+     * Check if member is rejected
+     */
+    public function isRejected()
+    {
+        return $this->verification_status === 'rejected';
+    }
+    
+    /**
+     * Approve member verification
+     */
+    public function approve($notes = null)
+    {
+        $this->verification_status = 'verified';
+        $this->verification_notes = $notes;
+        $this->verified_at = now();
+        return $this->save();
+    }
+    
+    /**
+     * Reject member verification
+     */
+    public function reject($reason)
+    {
+        $this->verification_status = 'rejected';
+        $this->verification_notes = $reason;
+        return $this->save();
+    }
+    
+    /**
+     * Set member to pending status
+     */
+    public function setPending($notes = null)
+    {
+        $this->verification_status = 'pending';
+        $this->verification_notes = $notes;
+        $this->verified_at = null;
+        return $this->save();
     }
 }
