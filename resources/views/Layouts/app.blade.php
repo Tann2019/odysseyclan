@@ -575,8 +575,8 @@
                                 <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/dashboard"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
-                                <li><a class="dropdown-item" href="/profile"><i class="fas fa-user-edit me-2"></i> Profile</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fas fa-user-edit me-2"></i> Edit Profile</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form method="POST" action="{{ route('logout') }}">
@@ -590,8 +590,13 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->is('login*') ? 'active' : '' }}" href="/login">
+                            <a class="nav-link {{ request()->is('login*') ? 'active' : '' }}" href="{{ route('login') }}">
                                 <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->is('register*') ? 'active' : '' }}" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus"></i> Register
                             </a>
                         </li>
                     @endauth

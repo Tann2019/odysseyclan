@@ -22,8 +22,11 @@
                             <h2 class="card-title text-accent mb-4">Become a Warrior</h2>
                             <p class="card-text">Odyssey Clan offers a competitive yet supportive environment where you can hone your skills and rise through the ranks. We compete in tournaments, organize training sessions, and foster a strong sense of community.</p>
                             <div class="d-grid gap-3 mt-4">
-                                <a href="https://discord.gg/odyssey" class="btn btn-lg btn-accent" target="_blank">
-                                    <i class="fab fa-discord me-2"></i> Apply via Discord
+                                <a href="{{ route('register') }}" class="btn btn-lg btn-accent">
+                                    <i class="fas fa-user-plus me-2"></i> Register as Member
+                                </a>
+                                <a href="https://discord.gg/odyssey" class="btn btn-lg btn-outline" target="_blank">
+                                    <i class="fab fa-discord me-2"></i> Join our Discord
                                 </a>
                                 <button class="btn btn-outline" type="button" data-bs-toggle="modal" data-bs-target="#requirementsModal">
                                     <i class="fas fa-info-circle me-2"></i> View Requirements
