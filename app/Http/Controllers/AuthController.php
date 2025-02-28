@@ -102,16 +102,22 @@ class AuthController extends Controller
         $user = Auth::user();
         $member = $user->member;
         
-        // If user doesn't have a member profile, create one
-        if (!$member) {
+        // If user doesn't have a member profile, create one with a temporary discord ID
+        if (!$member->exists) {
+            // Generate a unique temporary discord ID by prefixing with temp_ and user ID
+            $tempDiscordId = 'temp_' . $user->id . '_' . uniqid();
+            
             $member = Member::create([
                 'user_id' => $user->id,
-                'discord_id' => 'temp_' . uniqid(),
+                'discord_id' => $tempDiscordId,
                 'username' => $user->name,
                 'rank' => 'recruit',
                 'achievements' => [],
                 'is_active' => true,
             ]);
+            
+            return redirect()->route('profile.edit')
+                ->with('warning', 'Please update your profile with your actual Discord ID.');
         }
         
         return view('auth.dashboard', compact('user', 'member'));
