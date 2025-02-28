@@ -19,7 +19,7 @@
                         <!-- Name -->
                         <div class="mb-3">
                             <label for="name" class="form-label text-white">Full Name</label>
-                            <input type="text" class="form-control bg-mid-gray text-white @error('name') is-invalid @enderror" 
+                            <input type="text" class="form-control bg-mid-gray @error('name') is-invalid @enderror" 
                                 id="name" name="name" value="{{ old('name') }}" required autofocus>
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -29,7 +29,7 @@
                         <!-- Email -->
                         <div class="mb-3">
                             <label for="email" class="form-label text-white">Email Address</label>
-                            <input type="email" class="form-control bg-mid-gray text-white @error('email') is-invalid @enderror" 
+                            <input type="email" class="form-control bg-mid-gray @error('email') is-invalid @enderror" 
                                 id="email" name="email" value="{{ old('email') }}" required>
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -40,7 +40,7 @@
                         <div class="mb-3">
                             <label for="discord_id" class="form-label text-white">Discord ID</label>
                             <div class="input-group">
-                                <input type="text" class="form-control bg-mid-gray text-white @error('discord_id') is-invalid @enderror" 
+                                <input type="text" class="form-control bg-mid-gray @error('discord_id') is-invalid @enderror" 
                                     id="discord_id" name="discord_id" value="{{ old('discord_id') }}" required
                                     placeholder="e.g. username#1234">
                                 <span class="input-group-text bg-dark-gray text-light border-0">
@@ -58,7 +58,7 @@
                         <!-- Username -->
                         <div class="mb-3">
                             <label for="username" class="form-label text-white">Gaming Username</label>
-                            <input type="text" class="form-control bg-mid-gray text-white @error('username') is-invalid @enderror" 
+                            <input type="text" class="form-control bg-mid-gray @error('username') is-invalid @enderror" 
                                 id="username" name="username" value="{{ old('username') }}" required>
                             @error('username')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -71,7 +71,7 @@
                         <!-- Password -->
                         <div class="mb-3">
                             <label for="password" class="form-label text-white">Password</label>
-                            <input type="password" class="form-control bg-mid-gray text-white @error('password') is-invalid @enderror" 
+                            <input type="password" class="form-control bg-mid-gray @error('password') is-invalid @enderror" 
                                 id="password" name="password" required>
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -81,7 +81,7 @@
                         <!-- Confirm Password -->
                         <div class="mb-3">
                             <label for="password_confirmation" class="form-label text-white">Confirm Password</label>
-                            <input type="password" class="form-control bg-mid-gray text-white" 
+                            <input type="password" class="form-control bg-mid-gray" 
                                 id="password_confirmation" name="password_confirmation" required>
                         </div>
                         
