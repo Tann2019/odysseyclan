@@ -24,7 +24,7 @@
                         
                         <!-- Email -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label text-white">Email Address</label>
                             <input type="email" class="form-control bg-mid-gray text-white @error('email') is-invalid @enderror" 
                                 id="email" name="email" value="{{ old('email') }}" required autofocus>
                             @error('email')
@@ -34,7 +34,7 @@
                         
                         <!-- Password -->
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label text-white">Password</label>
                             <input type="password" class="form-control bg-mid-gray text-white @error('password') is-invalid @enderror" 
                                 id="password" name="password" required>
                             @error('password')
@@ -45,7 +45,7 @@
                         <!-- Remember Me -->
                         <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="remember" name="remember">
-                            <label class="form-check-label" for="remember">Remember me</label>
+                            <label class="form-check-label text-white" for="remember">Remember me</label>
                         </div>
                         
                         <div class="d-grid gap-2">

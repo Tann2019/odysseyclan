@@ -18,7 +18,7 @@
                         
                         <!-- Name -->
                         <div class="mb-3">
-                            <label for="name" class="form-label">Full Name</label>
+                            <label for="name" class="form-label text-white">Full Name</label>
                             <input type="text" class="form-control bg-mid-gray text-white @error('name') is-invalid @enderror" 
                                 id="name" name="name" value="{{ old('name') }}" required autofocus>
                             @error('name')
@@ -28,7 +28,7 @@
                         
                         <!-- Email -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label text-white">Email Address</label>
                             <input type="email" class="form-control bg-mid-gray text-white @error('email') is-invalid @enderror" 
                                 id="email" name="email" value="{{ old('email') }}" required>
                             @error('email')
@@ -38,7 +38,7 @@
                         
                         <!-- Discord ID -->
                         <div class="mb-3">
-                            <label for="discord_id" class="form-label">Discord ID</label>
+                            <label for="discord_id" class="form-label text-white">Discord ID</label>
                             <div class="input-group">
                                 <input type="text" class="form-control bg-mid-gray text-white @error('discord_id') is-invalid @enderror" 
                                     id="discord_id" name="discord_id" value="{{ old('discord_id') }}" required
@@ -57,7 +57,7 @@
                         
                         <!-- Username -->
                         <div class="mb-3">
-                            <label for="username" class="form-label">Gaming Username</label>
+                            <label for="username" class="form-label text-white">Gaming Username</label>
                             <input type="text" class="form-control bg-mid-gray text-white @error('username') is-invalid @enderror" 
                                 id="username" name="username" value="{{ old('username') }}" required>
                             @error('username')
@@ -70,7 +70,7 @@
                         
                         <!-- Password -->
                         <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
+                            <label for="password" class="form-label text-white">Password</label>
                             <input type="password" class="form-control bg-mid-gray text-white @error('password') is-invalid @enderror" 
                                 id="password" name="password" required>
                             @error('password')
@@ -80,7 +80,7 @@
                         
                         <!-- Confirm Password -->
                         <div class="mb-3">
-                            <label for="password_confirmation" class="form-label">Confirm Password</label>
+                            <label for="password_confirmation" class="form-label text-white">Confirm Password</label>
                             <input type="password" class="form-control bg-mid-gray text-white" 
                                 id="password_confirmation" name="password_confirmation" required>
                         </div>
