@@ -15,11 +15,20 @@ class Member extends Model
         'avatar_url',
         'description',
         'achievements',
-        'is_active'
+        'is_active',
+        'user_id'
     ];
 
     protected $casts = [
         'achievements' => 'array',
         'is_active' => 'boolean'
     ];
+    
+    /**
+     * Get the user that owns the member profile
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
