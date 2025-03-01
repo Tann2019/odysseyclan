@@ -677,6 +677,19 @@
                         <a class="nav-link {{ request()->is('join*') ? 'active' : '' }}" href="/join">Join Us</a>
                     </li>
                     @auth
+                        @if(Auth::user()->isAdmin())
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ request()->is('admin*') ? 'active' : '' }}" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-shield"></i> Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.verification.index') }}"><i class="fas fa-user-check me-2"></i> Verifications</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.members.index') }}"><i class="fas fa-users me-2"></i> Members</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admin.admins.create') }}"><i class="fas fa-user-plus me-2"></i> Add Admin</a></li>
+                            </ul>
+                        </li>
+                        @endif
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}

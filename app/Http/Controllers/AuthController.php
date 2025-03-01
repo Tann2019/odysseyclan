@@ -12,6 +12,13 @@ use Illuminate\Validation\Rules\Password;
 class AuthController extends Controller
 {
     /**
+     * Constructor - no middleware
+     */
+    public function __construct()
+    {
+        // No middleware here
+    }
+    /**
      * Show the registration form
      */
     public function showRegister()
@@ -101,6 +108,26 @@ class AuthController extends Controller
      */
     public function dashboard()
     {
+        // Check if user is verified member
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin() && (!$user->member || !$user->member->isVerified())) {
+            if (!$user->member) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'You must complete your profile first.');
+            }
+            
+            if ($user->member->isPending()) {
+                return redirect()->route('verification.pending');
+            } elseif ($user->member->isRejected()) {
+                return redirect()->route('verification.rejected');
+            }
+            
+            return redirect()->route('verification.pending');
+        }
         $user = Auth::user();
         $member = $user->member;
         
@@ -130,6 +157,10 @@ class AuthController extends Controller
      */
     public function editProfile()
     {
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
         $user = Auth::user();
         $member = $user->member;
         
@@ -141,6 +172,10 @@ class AuthController extends Controller
      */
     public function updateProfile(Request $request)
     {
+        // Check if user is authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
         $user = Auth::user();
         
         $request->validate([

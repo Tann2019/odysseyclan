@@ -25,14 +25,12 @@ Route::prefix('api/v1')->group(function () {
 Route::get('/join', [HomeController::class, 'join'])->name('join');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 
-// Clan member-only routes - require verification to view
-Route::middleware(['auth', 'verified.member'])->group(function () {
-    Route::get('/members', [App\Http\Controllers\MemberController::class, 'index'])->name('members.index');
-    Route::get('/events', [HomeController::class, 'events'])->name('events.index');
-    Route::get('/events/{id}', [HomeController::class, 'eventShow'])->name('events.show');
-    Route::get('/leaderboard', [HomeController::class, 'leaderboard'])->name('leaderboard');
-    Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
-});
+// Clan member-only routes - verification handled in controllers
+Route::get('/members', [App\Http\Controllers\MemberController::class, 'index'])->name('members.index');
+Route::get('/events', [HomeController::class, 'events'])->name('events.index');
+Route::get('/events/{id}', [HomeController::class, 'eventShow'])->name('events.show');
+Route::get('/leaderboard', [HomeController::class, 'leaderboard'])->name('leaderboard');
+Route::get('/gallery', [HomeController::class, 'gallery'])->name('gallery');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {
@@ -57,33 +55,29 @@ Route::middleware('auth')->group(function () {
     });
     
     // Routes that require verified member status
-    Route::middleware('verified.member')->group(function () {
-        Route::get('/profile', [AuthController::class, 'dashboard'])->name('profile.dashboard');
-    });
+    Route::get('/profile', [AuthController::class, 'dashboard'])->name('profile.dashboard');
     
     // Admin Routes
-    Route::middleware('admin')->group(function () {
-        Route::prefix('admin')->group(function () {
-            // Admin dashboard
-            Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
-            
-            // Admin management
-            Route::get('/admins/create', [App\Http\Controllers\AdminController::class, 'showCreateAdmin'])->name('admin.admins.create');
-            Route::post('/admins', [App\Http\Controllers\AdminController::class, 'storeAdmin'])->name('admin.admins.store');
-            
-            // Member management
-            Route::get('/members', [App\Http\Controllers\MemberController::class, 'adminIndex'])->name('admin.members.index');
-            Route::get('/members/{id}/edit', [App\Http\Controllers\MemberController::class, 'edit'])->name('admin.members.edit');
-            Route::put('/members/{id}', [App\Http\Controllers\MemberController::class, 'update'])->name('admin.members.update');
-            Route::delete('/members/{id}', [App\Http\Controllers\MemberController::class, 'destroy'])->name('admin.members.destroy');
-            
-            // Verification management
-            Route::get('/verification', [App\Http\Controllers\VerificationController::class, 'adminIndex'])->name('admin.verification.index');
-            Route::get('/verification/{id}', [App\Http\Controllers\VerificationController::class, 'adminShow'])->name('admin.verification.show');
-            Route::post('/verification/{id}/approve', [App\Http\Controllers\VerificationController::class, 'approve'])->name('admin.verification.approve');
-            Route::post('/verification/{id}/reject', [App\Http\Controllers\VerificationController::class, 'reject'])->name('admin.verification.reject');
-            Route::post('/verification/{id}/reset', [App\Http\Controllers\VerificationController::class, 'resetToPending'])->name('admin.verification.reset');
-        });
+    Route::prefix('admin')->group(function () {
+        // Admin dashboard
+        Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
+        
+        // Admin management
+        Route::get('/admins/create', [App\Http\Controllers\AdminController::class, 'showCreateAdmin'])->name('admin.admins.create');
+        Route::post('/admins', [App\Http\Controllers\AdminController::class, 'storeAdmin'])->name('admin.admins.store');
+        
+        // Member management
+        Route::get('/members', [App\Http\Controllers\MemberController::class, 'adminIndex'])->name('admin.members.index');
+        Route::get('/members/{id}/edit', [App\Http\Controllers\MemberController::class, 'edit'])->name('admin.members.edit');
+        Route::put('/members/{id}', [App\Http\Controllers\MemberController::class, 'update'])->name('admin.members.update');
+        Route::delete('/members/{id}', [App\Http\Controllers\MemberController::class, 'destroy'])->name('admin.members.destroy');
+        
+        // Verification management
+        Route::get('/verification', [App\Http\Controllers\VerificationController::class, 'adminIndex'])->name('admin.verification.index');
+        Route::get('/verification/{id}', [App\Http\Controllers\VerificationController::class, 'adminShow'])->name('admin.verification.show');
+        Route::post('/verification/{id}/approve', [App\Http\Controllers\VerificationController::class, 'approve'])->name('admin.verification.approve');
+        Route::post('/verification/{id}/reject', [App\Http\Controllers\VerificationController::class, 'reject'])->name('admin.verification.reject');
+        Route::post('/verification/{id}/reset', [App\Http\Controllers\VerificationController::class, 'resetToPending'])->name('admin.verification.reset');
     });
 });
 

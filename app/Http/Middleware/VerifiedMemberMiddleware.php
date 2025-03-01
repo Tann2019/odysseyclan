@@ -14,36 +14,41 @@ class VerifiedMemberMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            $user = Auth::user();
-            $member = $user->member;
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        
+        // If admin, always allow access
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
+        
+        $member = $user->member;
+        
+        // If member doesn't exist yet or is not verified, redirect to appropriate page
+        if (!$member || !$member->exists || !$member->isVerified()) {
+            // Specific routes that should be accessible for pending members
+            $allowedRoutes = [
+                'verification.pending', 
+                'verification.rejected', 
+                'profile.edit', 
+                'profile.update',
+                'logout'
+            ];
             
-            // If admin, always allow access
-            if ($user->isAdmin()) {
-                return $next($request);
-            }
-            
-            // If member doesn't exist yet or is not verified, redirect to appropriate page
-            if (!$member->exists || !$member->isVerified()) {
-                // Specific routes that should be accessible for pending members
-                $allowedRoutes = [
-                    'verification.pending', 
-                    'verification.rejected', 
-                    'profile.edit', 
-                    'profile.update',
-                    'logout'
-                ];
-                
-                if (!in_array($request->route()->getName(), $allowedRoutes)) {
+            if (!in_array($request->route()->getName(), $allowedRoutes)) {
+                if ($member && $member->exists) {
                     if ($member->isPending()) {
                         return redirect()->route('verification.pending');
                     } elseif ($member->isRejected()) {
                         return redirect()->route('verification.rejected');
-                    } else {
-                        // Default fallback for any other unusual status
-                        return redirect()->route('verification.pending');
                     }
                 }
+                
+                // Default fallback for any other unusual status
+                return redirect()->route('verification.pending');
             }
         }
         

@@ -4,14 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
+    /**
+     * Constructor - no middleware
+     */
+    public function __construct()
+    {
+        // No middleware here
+    }
     /**
      * Display a listing of all members for public view.
      */
     public function index(Request $request)
     {
+        // Check if user is verified member
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin() && (!$user->member || !$user->member->isVerified())) {
+            if (!$user->member) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'You must complete your profile first.');
+            }
+            
+            if ($user->member->isPending()) {
+                return redirect()->route('verification.pending');
+            } elseif ($user->member->isRejected()) {
+                return redirect()->route('verification.rejected');
+            }
+            
+            return redirect()->route('verification.pending');
+        }
         $query = Member::where('is_active', true);
 
         // Handle search
@@ -60,6 +88,16 @@ class MemberController extends Controller
      */
     public function adminIndex(Request $request)
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         $query = Member::query();
 
         // Handle search
@@ -113,6 +151,16 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         $member = Member::with('user')->findOrFail($id);
         $ranks = ['commander', 'captain', 'veteran', 'warrior', 'recruit'];
         
@@ -124,6 +172,16 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         $member = Member::findOrFail($id);
         
         $validated = $request->validate([
@@ -146,6 +204,16 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         $member = Member::findOrFail($id);
         
         // Instead of deleting, we can make them inactive

@@ -6,15 +6,16 @@ use App\Models\User;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
     /**
-     * Constructor - require admin middleware
+     * Constructor - no middleware
      */
     public function __construct()
     {
-        $this->middleware('admin');
+        // No middleware here
     }
     
     /**
@@ -22,6 +23,16 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         $totalMembers = Member::count();
         $pendingVerifications = Member::where('verification_status', 'pending')->count();
         
@@ -39,6 +50,16 @@ class AdminController extends Controller
      */
     public function showCreateAdmin()
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         return view('admin.create-admin');
     }
     
@@ -47,6 +68,16 @@ class AdminController extends Controller
      */
     public function storeAdmin(Request $request)
     {
+        // Check if user is an admin
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin()) {
+            return redirect()->route('home')
+                ->with('error', 'You do not have permission to access this area.');
+        }
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

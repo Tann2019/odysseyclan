@@ -4,16 +4,45 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Member;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+    /**
+     * Handle protected routes directly in the methods
+     */
+    public function __construct()
+    {
+        // No middleware here
+    }
     public function index()
     {
         return view('index');
     }
     
-    public function events()
+    public function events(Request $request)
     {
+        // Check if user is verified member
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin() && (!$user->member || !$user->member->isVerified())) {
+            if (!$user->member) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'You must complete your profile first.');
+            }
+            
+            if ($user->member->isPending()) {
+                return redirect()->route('verification.pending');
+            } elseif ($user->member->isRejected()) {
+                return redirect()->route('verification.rejected');
+            }
+            
+            return redirect()->route('verification.pending');
+        }
+        
         // For demonstration, we'll create some sample events
         $events = [
             [
@@ -81,8 +110,29 @@ class HomeController extends Controller
         return view('events.index', compact('events'));
     }
     
-    public function eventShow($id)
+    public function eventShow(Request $request, $id)
     {
+        // Check if user is verified member
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin() && (!$user->member || !$user->member->isVerified())) {
+            if (!$user->member) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'You must complete your profile first.');
+            }
+            
+            if ($user->member->isPending()) {
+                return redirect()->route('verification.pending');
+            } elseif ($user->member->isRejected()) {
+                return redirect()->route('verification.rejected');
+            }
+            
+            return redirect()->route('verification.pending');
+        }
+        
         // For demonstration, we'll create a sample event detail based on ID
         $events = [
             1 => [
@@ -238,8 +288,29 @@ class HomeController extends Controller
         return view('events.show', compact('event'));
     }
     
-    public function leaderboard()
+    public function leaderboard(Request $request)
     {
+        // Check if user is verified member
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin() && (!$user->member || !$user->member->isVerified())) {
+            if (!$user->member) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'You must complete your profile first.');
+            }
+            
+            if ($user->member->isPending()) {
+                return redirect()->route('verification.pending');
+            } elseif ($user->member->isRejected()) {
+                return redirect()->route('verification.rejected');
+            }
+            
+            return redirect()->route('verification.pending');
+        }
+        
         // Get members sorted by achievements count (for demonstration)
         $members = Member::all()->sortByDesc(function($member) {
             return count($member->achievements ?? []);
@@ -248,8 +319,29 @@ class HomeController extends Controller
         return view('leaderboard', compact('members'));
     }
     
-    public function gallery()
+    public function gallery(Request $request)
     {
+        // Check if user is verified member
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        $user = Auth::user();
+        if (!$user->isAdmin() && (!$user->member || !$user->member->isVerified())) {
+            if (!$user->member) {
+                return redirect()->route('profile.edit')
+                    ->with('error', 'You must complete your profile first.');
+            }
+            
+            if ($user->member->isPending()) {
+                return redirect()->route('verification.pending');
+            } elseif ($user->member->isRejected()) {
+                return redirect()->route('verification.rejected');
+            }
+            
+            return redirect()->route('verification.pending');
+        }
+        
         // Mock gallery data for demonstration
         $galleries = [
             [
