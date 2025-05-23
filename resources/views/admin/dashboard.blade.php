@@ -170,7 +170,7 @@
                                     <tr>
                                         <td class="align-middle">
                                             <div class="d-flex align-items-center">
-                                                <img src="{{ $member->avatar_url ?? 'https://via.placeholder.com/40x40/333/FFD700?text='.substr($member->username, 0, 1) }}" 
+                                                <img src="{{ $member->user->avatar ?? $member->avatar_url ?? 'https://via.placeholder.com/40x40/333/FFD700?text='.substr($member->username, 0, 1) }}" 
                                                     alt="{{ $member->username }}" class="rounded-circle me-2" 
                                                     style="width: 40px; height: 40px; object-fit: cover;">
                                                 <span>{{ $member->username }}</span>

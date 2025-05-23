@@ -190,6 +190,7 @@ class AuthController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'avatar_url' => $request->avatar_url,
         ]);
         
         if ($request->password) {

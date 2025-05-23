@@ -114,7 +114,7 @@
                                     <!-- Approve Modal -->
                                     <div class="modal fade" id="approveModal-{{ $member->id }}" tabindex="-1" aria-labelledby="approveModalLabel-{{ $member->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
-                                            <div class="modal-content">
+                                            <div class="modal-content bg-dark">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="approveModalLabel-{{ $member->id }}">Approve Member: {{ $member->username }}</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

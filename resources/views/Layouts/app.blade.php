@@ -496,11 +496,11 @@
         
         /* Modal styles */
         .modal {
-            z-index: 1055;
+            z-index: 9999 !important;
         }
         
         .modal-backdrop {
-            z-index: 1050;
+            z-index: 9998 !important;
             background-color: rgba(0, 0, 0, 0.8);
         }
         
@@ -510,6 +510,8 @@
             border: 2px solid var(--accent);
             border-radius: 10px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 10000;
         }
         
         .modal-header {
@@ -526,6 +528,8 @@
         
         .modal-dialog {
             pointer-events: auto;
+            position: relative;
+            z-index: 10001;
         }
         
         .modal.fade .modal-dialog {
@@ -537,9 +541,23 @@
             transform: none;
         }
         
-        /* Fix for modal flickering */
-        .modal-backdrop.fade {
-            opacity: 0;
+        /* Fix for modal backdrop clicking through */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        /* Ensure modal is properly positioned */
+        .modal.show {
+            display: block !important;
+        }
+        
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
         }
         
         .modal-backdrop.show {
@@ -749,8 +767,10 @@
                         </li>
                         @endif
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" 
+                                     class="rounded-circle me-2" style="width: 24px; height: 24px; object-fit: cover;">
+                                {{ Auth::user()->name }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('profile.dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i> Dashboard</a></li>
@@ -840,6 +860,46 @@
                 duration: 800,
                 offset: 100,
                 once: true
+            });
+            
+            // Fix modal backdrop clicking through issues
+            document.querySelectorAll('.modal').forEach(function(modal) {
+                modal.addEventListener('show.bs.modal', function(e) {
+                    // Ensure the modal is properly positioned
+                    e.target.style.display = 'block';
+                    document.body.classList.add('modal-open');
+                });
+                
+                modal.addEventListener('hide.bs.modal', function(e) {
+                    document.body.classList.remove('modal-open');
+                });
+                
+                // Prevent modal from closing when clicking inside the modal content
+                modal.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+                
+                // Only close when clicking the backdrop
+                const modalDialog = modal.querySelector('.modal-dialog');
+                if (modalDialog) {
+                    modalDialog.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                    });
+                }
+            });
+            
+            // Fix for buttons that trigger modals
+            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const targetModal = document.querySelector(this.getAttribute('data-bs-target'));
+                    if (targetModal) {
+                        const modal = new bootstrap.Modal(targetModal);
+                        modal.show();
+                    }
+                });
             });
         });
     </script>

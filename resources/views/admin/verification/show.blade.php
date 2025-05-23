@@ -197,10 +197,10 @@
 <!-- Approve Modal -->
 <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title" id="approveModalLabel">Approve Member: {{ $member->username }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('admin.verification.approve', $member->id) }}" method="POST">
                 @csrf
@@ -210,7 +210,7 @@
                     
                     <div class="mb-3">
                         <label for="notes" class="form-label">Approval Notes (Optional)</label>
-                        <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Add any notes about this approval"></textarea>
+                        <textarea class="form-control bg-dark text-white border-secondary" id="notes" name="notes" rows="3" placeholder="Add any notes about this approval"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -225,10 +225,10 @@
 <!-- Reject Modal -->
 <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title" id="rejectModalLabel">Reject Member: {{ $member->username }}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('admin.verification.reject', $member->id) }}" method="POST">
                 @csrf
@@ -238,8 +238,8 @@
                     
                     <div class="mb-3">
                         <label for="reason" class="form-label">Rejection Reason (Required)</label>
-                        <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="Provide a reason for rejection" required></textarea>
-                        <div class="form-text">This reason will be shown to the user.</div>
+                        <textarea class="form-control bg-dark text-white border-secondary" id="reason" name="reason" rows="3" placeholder="Provide a reason for rejection" required></textarea>
+                        <div class="form-text text-muted">This reason will be shown to the user.</div>
                     </div>
                 </div>
                 <div class="modal-footer">

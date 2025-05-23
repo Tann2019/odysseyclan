@@ -9,7 +9,8 @@
       "Bash(mkdir:*)",
       "Bash(php artisan make:migration:*)",
       "Bash(php artisan:*)",
-      "Bash(./vendor/bin/pint)"
+      "Bash(./vendor/bin/pint)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

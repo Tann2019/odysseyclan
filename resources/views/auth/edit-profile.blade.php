@@ -21,7 +21,7 @@
                             <!-- Current Avatar -->
                             <div class="col-md-4 text-center mb-4 mb-md-0">
                                 <div class="position-relative mx-auto" style="width: 150px; height: 150px;">
-                                    <img src="{{ $member->avatar_url ?? 'https://via.placeholder.com/150x150/333/FFD700?text='.substr($user->name, 0, 1) }}" 
+                                    <img src="{{ $user->avatar }}" 
                                         alt="{{ $user->name }}" class="rounded-circle border border-accent" 
                                         style="width: 150px; height: 150px; object-fit: cover;" id="avatar-preview">
                                 </div>
@@ -85,15 +85,15 @@
                         
                         <!-- Avatar URL -->
                         <div class="mb-3">
-                            <label for="avatar_url" class="form-label">Avatar URL</label>
+                            <label for="avatar_url" class="form-label">Profile Picture URL</label>
                             <input type="url" class="form-control bg-mid-gray text-white @error('avatar_url') is-invalid @enderror" 
-                                id="avatar_url" name="avatar_url" value="{{ old('avatar_url', $member->avatar_url) }}" 
+                                id="avatar_url" name="avatar_url" value="{{ old('avatar_url', $user->avatar_url) }}" 
                                 placeholder="https://example.com/your-avatar.jpg">
                             @error('avatar_url')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text text-white opacity-75">
-                                Enter a URL to an image that will be used as your profile picture.
+                                Enter a URL to an image for your profile picture. Leave blank to use a default avatar based on your initials.
                             </div>
                         </div>
                         
