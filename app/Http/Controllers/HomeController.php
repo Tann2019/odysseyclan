@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Member;
+use App\Models\News;
+use App\Models\Event;
+use App\Models\GalleryImage;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -17,7 +20,24 @@ class HomeController extends Controller
     }
     public function index()
     {
-        return view('index');
+        // Get featured/latest content for homepage
+        $latestNews = News::published()->latest()->take(3)->get();
+        $featuredEvents = Event::active()->featured()->upcoming()->take(3)->get();
+        $upcomingEvents = Event::active()->upcoming()->take(3)->get();
+        
+        return view('index', compact('latestNews', 'featuredEvents', 'upcomingEvents'));
+    }
+    
+    public function news()
+    {
+        $news = News::published()->latest()->paginate(12);
+        return view('news.index', compact('news'));
+    }
+    
+    public function newsShow($id)
+    {
+        $article = News::published()->findOrFail($id);
+        return view('news.show', compact('article'));
     }
     
     public function events(Request $request)
@@ -342,48 +362,76 @@ class HomeController extends Controller
             return redirect()->route('verification.pending');
         }
         
-        // Mock gallery data for demonstration
-        $galleries = [
-            [
-                'id' => 1,
-                'title' => 'Tournament Victories',
-                'count' => 12,
-                'cover' => '/images/gallery1.jpg'
-            ],
-            [
-                'id' => 2,
-                'title' => 'Training Sessions',
-                'count' => 8,
-                'cover' => '/images/gallery2.jpg'
-            ],
-            [
-                'id' => 3,
-                'title' => 'Community Events',
-                'count' => 15,
-                'cover' => '/images/gallery3.jpg'
-            ],
-            [
-                'id' => 4,
-                'title' => 'Team Building',
-                'count' => 6,
-                'cover' => '/images/gallery4.jpg'
-            ]
-        ];
+        // Get gallery images from database
+        $category = $request->input('category');
+        $query = GalleryImage::query();
         
-        // For demonstration purposes, we'll create a sample set of images
-        $images = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $images[] = [
-                'id' => $i,
-                'title' => 'Image ' . $i,
-                'url' => '/images/gallery/img' . $i . '.jpg',
-                'thumbnail' => '/images/gallery/thumb' . $i . '.jpg',
-                'category' => array_rand(['Tournament', 'Training', 'Community', 'Team Building']),
-                'date' => date('Y-m-d', strtotime('-' . rand(1, 60) . ' days'))
+        if ($category) {
+            $query->where('category', $category);
+        }
+        
+        $images = $query->ordered()->get();
+        $categories = GalleryImage::select('category')->distinct()->pluck('category');
+        
+        // Get category statistics for galleries display
+        $galleries = [];
+        foreach ($categories as $cat) {
+            $count = GalleryImage::where('category', $cat)->count();
+            if ($count > 0) {
+                // Get a cover image for this category
+                $coverImage = GalleryImage::where('category', $cat)->orderBy('is_featured', 'desc')->first();
+                $galleries[] = [
+                    'id' => $cat,
+                    'title' => ucfirst($cat),
+                    'count' => $count,
+                    'cover' => $coverImage ? $coverImage->image_url : '/images/logo.png'
+                ];
+            }
+        }
+        
+        // If no images in database, provide sample galleries
+        if (empty($galleries)) {
+            $galleries = [
+                [
+                    'id' => 'tournaments',
+                    'title' => 'Tournaments',
+                    'count' => 0,
+                    'cover' => '/images/logo.png'
+                ],
+                [
+                    'id' => 'training',
+                    'title' => 'Training',
+                    'count' => 0,
+                    'cover' => '/images/logo.png'
+                ],
+                [
+                    'id' => 'events',
+                    'title' => 'Events',
+                    'count' => 0,
+                    'cover' => '/images/logo.png'
+                ],
+                [
+                    'id' => 'general',
+                    'title' => 'General',
+                    'count' => 0,
+                    'cover' => '/images/logo.png'
+                ]
             ];
         }
         
-        return view('gallery', compact('galleries', 'images'));
+        // Transform images for the view
+        $transformedImages = $images->map(function ($image) {
+            return [
+                'id' => $image->id,
+                'title' => $image->title,
+                'url' => $image->image_url,
+                'thumbnail' => $image->image_url,
+                'category' => ucfirst($image->category),
+                'date' => $image->created_at->format('Y-m-d')
+            ];
+        });
+        
+        return view('gallery', compact('transformedImages', 'galleries', 'categories', 'category'))->with('images', $transformedImages);
     }
     
     public function join()

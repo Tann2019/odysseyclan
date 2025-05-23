@@ -79,6 +79,15 @@
 - **Dark Theme**: Consistent dark mode styling across admin panels
 - **Responsive Design**: Mobile-friendly admin interface
 - **Live Preview**: Image URL validation and preview
+- **Merch Integration**: Official merchandise store integration across site
+
+### Merchandise Store Integration
+- **External Store**: https://exclaim.gg/store/odyssey-clan
+- **Navigation Links**: Merch link in main navigation and footer
+- **Homepage Promotion**: Dedicated merch section with call-to-action
+- **Admin Dashboard**: Quick access link for administrators
+- **Subdomain Redirect**: shop.odysseyclan.com redirects to store
+- **Path Redirect**: /shop path also redirects to external store
 
 ## Production Readiness Checklist
 - ✅ Admin security middleware implemented

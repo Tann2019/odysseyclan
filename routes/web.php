@@ -7,6 +7,15 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Shop subdomain redirect
+Route::domain('shop.odysseyclan.com')->group(function () {
+    Route::get('/', [App\Http\Controllers\ShopController::class, 'redirect']);
+    Route::get('/{any}', [App\Http\Controllers\ShopController::class, 'redirect'])->where('any', '.*');
+});
+
+// Alternative route for shop path on main domain
+Route::get('/shop', [App\Http\Controllers\ShopController::class, 'redirect'])->name('shop.redirect');
+
 // API Routes
 Route::prefix('api/v1')->group(function () {
     // Public routes
@@ -24,6 +33,10 @@ Route::prefix('api/v1')->group(function () {
 // Public Web Routes - accessible to everyone
 Route::get('/join', [HomeController::class, 'join'])->name('join');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+
+// Public routes for news
+Route::get('/news', [HomeController::class, 'news'])->name('news.index');
+Route::get('/news/{id}', [HomeController::class, 'newsShow'])->name('news.show');
 
 // Clan member-only routes - verification handled in controllers
 Route::get('/members', [App\Http\Controllers\MemberController::class, 'index'])->name('members.index');
@@ -102,7 +115,9 @@ Route::middleware('auth')->group(function () {
         ]);
         
         // Gallery management
-        Route::resource('gallery', App\Http\Controllers\GalleryController::class)->names([
+        Route::resource('gallery', App\Http\Controllers\GalleryController::class)->parameters([
+            'gallery' => 'image'
+        ])->names([
             'index' => 'admin.gallery.index',
             'create' => 'admin.gallery.create',
             'store' => 'admin.gallery.store',

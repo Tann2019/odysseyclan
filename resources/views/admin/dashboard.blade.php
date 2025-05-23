@@ -65,7 +65,7 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="m-0">{{ \App\Models\Event::active()->count() }}</h3>
+                            <h3 class="m-0">{{ $activeEvents }}</h3>
                             <p class="m-0">Active Events</p>
                         </div>
                         <div class="fs-1">
@@ -75,6 +75,67 @@
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a href="{{ route('admin.events.index') }}" class="text-white stretched-link">View Details</a>
+                    <div class="text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Additional Stats Row -->
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card bg-info text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="m-0">{{ $publishedNews }}</h3>
+                            <p class="m-0">Published News</p>
+                        </div>
+                        <div class="fs-1">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a href="{{ route('admin.news.index') }}" class="text-white stretched-link">View Details</a>
+                    <div class="text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="m-0">{{ $totalImages }}</h3>
+                            <p class="m-0">Gallery Images</p>
+                        </div>
+                        <div class="fs-1">
+                            <i class="fas fa-images"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <a href="{{ route('admin.gallery.index') }}" class="text-white stretched-link">View Details</a>
+                    <div class="text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-purple text-white mb-4" style="background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="m-0">{{ $totalMembers + $publishedNews + $activeEvents }}</h3>
+                            <p class="m-0">Total Content</p>
+                        </div>
+                        <div class="fs-1">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <span class="text-white">Combined Stats</span>
                     <div class="text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -141,6 +202,50 @@
             </div>
         </div>
         
+        <!-- Recent Activity -->
+        <div class="col-lg-6">
+            <div class="card bg-dark-gray mb-4">
+                <div class="card-header bg-dark-gray">
+                    <h4 class="mb-0"><i class="fas fa-clock me-2"></i> Recent Activity</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h6 class="text-accent mb-3">Latest News</h6>
+                        @forelse($recentNews as $article)
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="bg-info rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px;">
+                                    <i class="fas fa-newspaper fa-xs"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-medium">{{ Str::limit($article->title, 40) }}</div>
+                                    <small class="text-muted">by {{ $article->author->name }} • {{ $article->created_at->diffForHumans() }}</small>
+                                </div>
+                            </div>
+                        @empty
+                            <small class="text-muted">No recent news</small>
+                        @endforelse
+                    </div>
+                    
+                    <div>
+                        <h6 class="text-accent mb-3">Upcoming Events</h6>
+                        @forelse($upcomingEvents as $event)
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="bg-{{ $event->type_color }} rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 32px; height: 32px;">
+                                    <i class="fas fa-calendar fa-xs"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-medium">{{ Str::limit($event->title, 40) }}</div>
+                                    <small class="text-muted">{{ $event->event_date->format('M d, Y') }} • {{ $event->days_left }} days left</small>
+                                </div>
+                            </div>
+                        @empty
+                            <small class="text-muted">No upcoming events</small>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- Quick Links -->
         <div class="col-lg-6">
             <div class="card bg-dark-gray mb-4">
@@ -166,6 +271,9 @@
                         </a>
                         <a href="{{ route('admin.admins.create') }}" class="btn btn-lg btn-success">
                             <i class="fas fa-user-shield me-2"></i> Create New Admin
+                        </a>
+                        <a href="https://exclaim.gg/store/odyssey-clan" target="_blank" class="btn btn-lg btn-outline-warning">
+                            <i class="fas fa-shopping-cart me-2"></i> View Merch Store
                         </a>
                     </div>
                 </div>

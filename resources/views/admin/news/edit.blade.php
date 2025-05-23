@@ -97,13 +97,48 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="{{ route('admin.news.index') }}" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-accent">
-                        <i class="fas fa-save me-2"></i> Update Article
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fas fa-trash me-2"></i> Delete Article
                     </button>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.news.index') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-accent">
+                            <i class="fas fa-save me-2"></i> Update Article
+                        </button>
+                    </div>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete News Article</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ $news->title }}</strong>?</p>
+                @if($news->image_url)
+                    <div class="text-center mb-3">
+                        <img src="{{ $news->image_url }}" alt="{{ $news->title }}" 
+                             class="img-fluid rounded" style="max-height: 150px;">
+                    </div>
+                @endif
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('admin.news.destroy', $news) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete Article</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

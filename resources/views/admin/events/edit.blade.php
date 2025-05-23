@@ -150,13 +150,57 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-accent">
-                        <i class="fas fa-save me-2"></i> Update Event
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                        <i class="fas fa-trash me-2"></i> Delete Event
                     </button>
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('admin.events.index') }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-accent">
+                            <i class="fas fa-save me-2"></i> Update Event
+                        </button>
+                    </div>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ $event->title }}</strong>?</p>
+                @if($event->image_url)
+                    <div class="text-center mb-3">
+                        <img src="{{ $event->image_url }}" alt="{{ $event->title }}" 
+                             class="img-fluid rounded" style="max-height: 150px;">
+                    </div>
+                @endif
+                <div class="mb-3">
+                    <small class="text-muted">
+                        <strong>Event Date:</strong> {{ $event->event_date->format('F d, Y \a\t H:i') }}<br>
+                        <strong>Type:</strong> {{ ucfirst($event->type) }}<br>
+                        @if($event->max_participants)
+                            <strong>Max Participants:</strong> {{ $event->max_participants }}<br>
+                        @endif
+                    </small>
+                </div>
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('admin.events.destroy', $event) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete Event</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

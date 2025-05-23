@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Member;
+use App\Models\News;
+use App\Models\Event;
+use App\Models\GalleryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -23,16 +26,33 @@ class AdminController extends Controller
      */
     public function dashboard()
     {
+        // Statistics
         $totalMembers = Member::count();
         $pendingVerifications = Member::where('verification_status', 'pending')->count();
+        $activeEvents = Event::active()->count();
+        $publishedNews = News::published()->count();
+        $totalImages = GalleryImage::count();
         
         // Get latest members
         $latestMembers = Member::with('user')
             ->latest()
             ->take(5)
             ->get();
+            
+        // Recent activity
+        $recentNews = News::with('author')->latest()->take(3)->get();
+        $upcomingEvents = Event::active()->upcoming()->take(3)->get();
         
-        return view('admin.dashboard', compact('totalMembers', 'pendingVerifications', 'latestMembers'));
+        return view('admin.dashboard', compact(
+            'totalMembers', 
+            'pendingVerifications', 
+            'activeEvents',
+            'publishedNews',
+            'totalImages',
+            'latestMembers',
+            'recentNews',
+            'upcomingEvents'
+        ));
     }
     
     /**

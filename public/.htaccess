@@ -5,6 +5,13 @@
 
     RewriteEngine On
 
+    # Handle subdomain redirects for shop.odysseyclan.com
+    RewriteCond %{HTTP_HOST} ^shop\.odysseyclan\.com$ [NC]
+    RewriteRule ^(.*)$ https://exclaim.gg/store/odyssey-clan [R=301,L]
+
+    # Handle shop path redirects
+    RewriteRule ^shop/?$ https://exclaim.gg/store/odyssey-clan [R=301,L]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

@@ -495,19 +495,72 @@
         }
         
         /* Modal styles */
+        .modal {
+            z-index: 1055;
+        }
+        
+        .modal-backdrop {
+            z-index: 1050;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
         .modal-content {
             background-color: var(--dark-gray);
             color: var(--text);
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
         
         .modal-header {
             border-bottom-color: var(--accent);
             background-color: var(--dark-gray);
+            border-radius: 8px 8px 0 0;
         }
         
         .modal-footer {
             border-top-color: var(--accent);
             background-color: var(--dark-gray);
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .modal-dialog {
+            pointer-events: auto;
+        }
+        
+        .modal.fade .modal-dialog {
+            transition: transform 0.3s ease-out;
+            transform: translate(0, -50px);
+        }
+        
+        .modal.show .modal-dialog {
+            transform: none;
+        }
+        
+        /* Fix for modal flickering */
+        .modal-backdrop.fade {
+            opacity: 0;
+        }
+        
+        .modal-backdrop.show {
+            opacity: 1;
+        }
+        
+        /* Prevent background elements from interfering with modals */
+        body.modal-open {
+            overflow: hidden;
+        }
+        
+        body.modal-open .bg-pattern::before,
+        body.modal-open .bg-noise {
+            z-index: -2;
+        }
+        
+        /* Ensure modal buttons work properly */
+        .modal .btn {
+            pointer-events: auto;
+            position: relative;
+            z-index: 1;
         }
         
         .table-warning {
@@ -676,6 +729,11 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('join*') ? 'active' : '' }}" href="/join">Join Us</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://exclaim.gg/store/odyssey-clan" target="_blank">
+                            <i class="fas fa-shopping-cart me-1"></i> Merch
+                        </a>
+                    </li>
                     @auth
                         @if(Auth::user()->isAdmin())
                         <li class="nav-item dropdown">
@@ -756,6 +814,7 @@
                         <li><a href="/leaderboard"><i class="fas fa-chevron-right me-2"></i> Leaderboard</a></li>
                         <li><a href="/gallery"><i class="fas fa-chevron-right me-2"></i> Media Gallery</a></li>
                         <li><a href="/join"><i class="fas fa-chevron-right me-2"></i> Join Odyssey</a></li>
+                        <li><a href="https://exclaim.gg/store/odyssey-clan" target="_blank"><i class="fas fa-shopping-cart me-2"></i> Official Merch</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
