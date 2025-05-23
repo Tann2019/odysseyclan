@@ -21,7 +21,7 @@
             <h5 class="mb-0">Article Details</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.news.update', $news) }}" method="POST">
+            <form action="{{ route('admin.news.update', $news) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -58,14 +58,27 @@
 
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="image_url" class="form-label">Featured Image URL</label>
-                            <input type="url" class="form-control @error('image_url') is-invalid @enderror" 
-                                id="image_url" name="image_url" value="{{ old('image_url', $news->image_url) }}" 
-                                placeholder="https://example.com/image.jpg">
-                            @error('image_url')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <div class="form-text">Optional featured image for the article</div>
+                            <label for="image" class="form-label">Featured Image</label>
+                            <div class="mb-3">
+                                @if($news->image_url)
+                                    <div class="current-image mb-3">
+                                        <img src="{{ $news->image_url }}" alt="Current featured image" class="img-thumbnail" style="max-width: 200px; max-height: 150px; object-fit: cover;">
+                                        <p class="small text-muted mt-1">Current featured image</p>
+                                    </div>
+                                @endif
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                                    id="image" name="image" accept="image/*">
+                                @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">Upload a new featured image (JPG, PNG, GIF, WebP - max 5MB). Leave empty to keep current image.</div>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remove_image" name="remove_image" value="1">
+                                <label class="form-check-label" for="remove_image">
+                                    Remove current featured image
+                                </label>
+                            </div>
                         </div>
 
                         <div class="mb-3">

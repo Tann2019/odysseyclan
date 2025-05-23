@@ -40,7 +40,7 @@
                     <h5 class="mb-0">Member Information</h5>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('admin.members.update', $member->id) }}" method="POST">
+                    <form action="{{ route('admin.members.update', $member->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row g-3">
@@ -70,9 +70,23 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label for="avatar_url" class="form-label">Avatar URL</label>
-                                <input type="url" class="form-control" id="avatar_url" name="avatar_url" value="{{ old('avatar_url', $member->avatar_url) }}">
-                                <div class="form-text">Leave empty to use the default avatar</div>
+                                <label for="avatar" class="form-label">Avatar</label>
+                                <div class="mb-3">
+                                    @if($member->avatar_url)
+                                        <div class="current-avatar mb-3">
+                                            <img src="{{ $member->avatar_url }}" alt="Current avatar" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                                            <p class="small text-muted mt-1">Current avatar</p>
+                                        </div>
+                                    @endif
+                                    <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*">
+                                    <div class="form-text">Upload a new avatar image (JPG, PNG, GIF, WebP - max 5MB). Leave empty to keep current avatar.</div>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="remove_avatar" name="remove_avatar" value="1">
+                                    <label class="form-check-label" for="remove_avatar">
+                                        Remove current avatar (use default)
+                                    </label>
+                                </div>
                             </div>
                             <div class="col-12">
                                 <label for="description" class="form-label">Description</label>

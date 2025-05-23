@@ -28,7 +28,7 @@
                         
                         <span class="position-absolute bottom-0 end-0 bg-accent text-dark rounded-circle p-2" 
                               style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
-                            <i class="fas fa-{{ strtolower($member->rank) === 'commander' ? 'crown' : (strtolower($member->rank) === 'captain' ? 'shield' : 'user') }}"></i>
+                            <i class="fas fa-{{ strtolower($member->rank) === 'commander' ? 'crown' : (strtolower($member->rank) === 'captain' ? 'shield' : 'user') }} text-white"></i>
                         </span>
                     </div>
                     

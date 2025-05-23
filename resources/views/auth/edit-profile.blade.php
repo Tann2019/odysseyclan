@@ -13,7 +13,7 @@
                     <h4 class="mb-0">Update Your Information</h4>
                 </div>
                 <div class="card-body">
-                    <form method="POST" action="{{ route('profile.update') }}">
+                    <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         
@@ -83,17 +83,22 @@
                         
                         <hr class="border-accent my-4">
                         
-                        <!-- Avatar URL -->
+                        <!-- Avatar Upload -->
                         <div class="mb-3">
-                            <label for="avatar_url" class="form-label">Profile Picture URL</label>
-                            <input type="url" class="form-control bg-mid-gray text-white @error('avatar_url') is-invalid @enderror" 
-                                id="avatar_url" name="avatar_url" value="{{ old('avatar_url', $user->avatar_url) }}" 
-                                placeholder="https://example.com/your-avatar.jpg">
-                            @error('avatar_url')
+                            <label for="avatar" class="form-label">Profile Picture</label>
+                            <input type="file" class="form-control bg-mid-gray text-white @error('avatar') is-invalid @enderror" 
+                                id="avatar" name="avatar" accept="image/*">
+                            @error('avatar')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                             <div class="form-text text-white opacity-75">
-                                Enter a URL to an image for your profile picture. Leave blank to use a default avatar based on your initials.
+                                Upload a new profile picture (JPG, PNG, GIF, WebP - max 5MB). Leave empty to keep your current avatar.
+                            </div>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" id="remove_avatar" name="remove_avatar" value="1">
+                                <label class="form-check-label text-white" for="remove_avatar">
+                                    Remove current avatar (use default)
+                                </label>
                             </div>
                         </div>
                         

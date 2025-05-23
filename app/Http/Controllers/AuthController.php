@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Member;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -170,7 +171,7 @@ class AuthController extends Controller
     /**
      * Update the user and member profile
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(Request $request, ImageUploadService $imageUploadService)
     {
         // Check if user is authenticated
         if (!Auth::check()) {
@@ -184,13 +185,36 @@ class AuthController extends Controller
             'discord_id' => 'required|string|max:255|unique:members,discord_id,' . ($user->member->id ?? ''),
             'username' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'avatar_url' => 'nullable|url',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5120',
+            'remove_avatar' => 'nullable|boolean',
         ]);
+
+        $avatarUrl = $user->avatar_url;
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($user->avatar_url) {
+                $imageUploadService->deleteImage($user->avatar_url);
+            }
+            
+            // Upload new avatar
+            $avatarPath = $imageUploadService->uploadAvatar($request->file('avatar'));
+            if ($avatarPath) {
+                $avatarUrl = $avatarPath;
+            }
+        } elseif ($request->boolean('remove_avatar')) {
+            // Remove current avatar
+            if ($user->avatar_url) {
+                $imageUploadService->deleteImage($user->avatar_url);
+                $avatarUrl = null;
+            }
+        }
         
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'avatar_url' => $request->avatar_url,
+            'avatar_url' => $avatarUrl,
         ]);
         
         if ($request->password) {
@@ -207,7 +231,7 @@ class AuthController extends Controller
             'discord_id' => $request->discord_id,
             'username' => $request->username,
             'description' => $request->description,
-            'avatar_url' => $request->avatar_url,
+            'avatar_url' => $avatarUrl,
         ]);
         
         return redirect()->route('profile.dashboard')->with('success', 'Profile updated successfully!');

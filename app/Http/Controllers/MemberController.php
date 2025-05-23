@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -150,7 +151,7 @@ class MemberController extends Controller
     /**
      * Update the specified member in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, ImageUploadService $imageUploadService)
     {
         $member = Member::findOrFail($id);
         
@@ -158,10 +159,34 @@ class MemberController extends Controller
             'username' => 'required|string|max:255',
             'discord_id' => 'required|string|max:255|unique:members,discord_id,' . $member->id,
             'rank' => 'required|string|in:commander,captain,veteran,warrior,recruit',
-            'avatar_url' => 'nullable|url',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png,gif,webp|max:5120',
+            'remove_avatar' => 'nullable|boolean',
             'description' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
         ]);
+
+        // Handle avatar upload
+        if ($request->hasFile('avatar')) {
+            // Delete old avatar if exists
+            if ($member->avatar_url) {
+                $imageUploadService->deleteImage($member->avatar_url);
+            }
+            
+            // Upload new avatar
+            $avatarPath = $imageUploadService->uploadAvatar($request->file('avatar'));
+            if ($avatarPath) {
+                $validated['avatar_url'] = $avatarPath;
+            }
+        } elseif ($request->boolean('remove_avatar')) {
+            // Remove current avatar
+            if ($member->avatar_url) {
+                $imageUploadService->deleteImage($member->avatar_url);
+                $validated['avatar_url'] = null;
+            }
+        }
+
+        // Remove upload-specific fields from validation data
+        unset($validated['avatar'], $validated['remove_avatar']);
         
         $member->update($validated);
         

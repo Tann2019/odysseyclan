@@ -21,7 +21,7 @@
             <h5 class="mb-0">Image Details</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.gallery.update', $image) }}" method="POST">
+            <form action="{{ route('admin.gallery.update', $image) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -37,14 +37,19 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="image_url" class="form-label">Image URL <span class="text-danger">*</span></label>
-                            <input type="url" class="form-control @error('image_url') is-invalid @enderror" 
-                                id="image_url" name="image_url" value="{{ old('image_url', $image->image_url) }}" 
-                                placeholder="https://example.com/image.jpg" required>
-                            @error('image_url')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                            <div class="form-text">Direct URL to the image file</div>
+                            <label for="image" class="form-label">Replace Image</label>
+                            <div class="mb-3">
+                                <div class="current-image mb-3">
+                                    <img src="{{ $image->image_url }}" alt="Current image" class="img-thumbnail" style="max-width: 200px; max-height: 150px; object-fit: cover;">
+                                    <p class="small text-muted mt-1">Current image</p>
+                                </div>
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                                    id="image" name="image" accept="image/*">
+                                @error('image')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                                <div class="form-text">Upload a new image file (JPG, PNG, GIF, WebP - max 5MB). Leave empty to keep current image.</div>
+                            </div>
                         </div>
 
                         <div class="mb-3">

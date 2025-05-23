@@ -21,7 +21,7 @@
             <h5 class="mb-0">Article Details</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.news.store') }}" method="POST">
+            <form action="{{ route('admin.news.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="row">
@@ -57,14 +57,13 @@
 
                     <div class="col-md-4">
                         <div class="mb-3">
-                            <label for="image_url" class="form-label">Featured Image URL</label>
-                            <input type="url" class="form-control @error('image_url') is-invalid @enderror" 
-                                id="image_url" name="image_url" value="{{ old('image_url') }}" 
-                                placeholder="https://example.com/image.jpg">
-                            @error('image_url')
+                            <label for="image" class="form-label">Featured Image</label>
+                            <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                                id="image" name="image" accept="image/*">
+                            @error('image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <div class="form-text">Optional featured image for the article</div>
+                            <div class="form-text">Upload an optional featured image for the article (JPG, PNG, GIF, WebP - max 5MB)</div>
                         </div>
 
                         <div class="mb-3">

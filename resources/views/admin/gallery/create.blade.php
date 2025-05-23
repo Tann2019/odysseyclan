@@ -21,7 +21,7 @@
             <h5 class="mb-0">Image Details</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.gallery.store') }}" method="POST">
+            <form action="{{ route('admin.gallery.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 
                 <div class="row">
@@ -36,14 +36,13 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="image_url" class="form-label">Image URL <span class="text-danger">*</span></label>
-                            <input type="url" class="form-control @error('image_url') is-invalid @enderror" 
-                                id="image_url" name="image_url" value="{{ old('image_url') }}" 
-                                placeholder="https://example.com/image.jpg" required>
-                            @error('image_url')
+                            <label for="image" class="form-label">Image File <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control @error('image') is-invalid @enderror" 
+                                id="image" name="image" accept="image/*" required>
+                            @error('image')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                            <div class="form-text">Direct URL to the image file</div>
+                            <div class="form-text">Upload an image file (JPG, PNG, GIF, WebP - max 5MB)</div>
                         </div>
 
                         <div class="mb-3">
