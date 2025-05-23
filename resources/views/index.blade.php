@@ -66,20 +66,16 @@
                     <div class="ratio ratio-16x9">
                         <iframe 
                             id="twitch-embed"
-                            src="{{ $liveStreamer->twitch_embed_url }}" 
+                            src="https://player.twitch.tv/?channel={{$liveStreamer->twitch_username}}&parent={{ request()->getHost() }}" 
                             height="100%" 
                             width="100%" 
                             allowfullscreen="true" 
                             scrolling="no" 
-                            frameborder="0"
-                            allow="autoplay; fullscreen"
-                            sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
-                            onload="this.style.display='block'"
-                            onerror="showEmbedFallback()">
+                            frameborder="0">
                         </iframe>
                         
                         <!-- Fallback content if iframe fails to load -->
-                        <div id="embed-fallback" style="display: none;" class="d-flex flex-column align-items-center justify-content-center h-100 bg-dark text-white">
+                        {{-- <div id="embed-fallback" style="display: none;" class="d-flex flex-column align-items-center justify-content-center h-100 bg-dark text-white">
                             <i class="fab fa-twitch fa-4x text-purple mb-3"></i>
                             <h4 class="mb-3">{{ $liveStreamer->display_name }} is Live!</h4>
                             @if($liveStreamer->stream_title)
@@ -88,7 +84,7 @@
                             <a href="{{ $liveStreamer->twitch_channel_url }}" target="_blank" class="btn btn-purple btn-lg">
                                 <i class="fab fa-twitch me-2"></i> Watch on Twitch
                             </a>
-                        </div>
+                        </div> --}}
                     </div>
                     
                     <!-- Stream Actions -->

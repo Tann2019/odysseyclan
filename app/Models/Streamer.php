@@ -82,19 +82,7 @@ class Streamer extends Model
     public function getTwitchEmbedUrlAttribute()
     {
         $host = request()->getHost();
-        
-        // For development, try multiple common development hosts
-        if (app()->environment('local') || str_contains($host, 'localhost') || str_contains($host, '127.0.0.1')) {
-            // Add multiple parent domains for development
-            $parents = ['localhost', '127.0.0.1'];
-            if (!in_array($host, $parents)) {
-                $parents[] = $host;
-            }
-            $parentParams = implode('&parent=', $parents);
-            return "https://player.twitch.tv/?channel={$this->twitch_username}&parent={$parentParams}&muted=false";
-        } else {
-            return "https://player.twitch.tv/?channel={$this->twitch_username}&parent={$host}&muted=false";
-        }
+        return "https://player.twitch.tv/?channel={$this->twitch_username}&parent={$host}";
     }
 
     /**
