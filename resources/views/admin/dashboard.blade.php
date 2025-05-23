@@ -65,8 +65,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3 class="m-0">0</h3>
-                            <p class="m-0">New Events</p>
+                            <h3 class="m-0">{{ \App\Models\Event::active()->count() }}</h3>
+                            <p class="m-0">Active Events</p>
                         </div>
                         <div class="fs-1">
                             <i class="fas fa-calendar-plus"></i>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a href="#" class="text-white stretched-link">View Details</a>
+                    <a href="{{ route('admin.events.index') }}" class="text-white stretched-link">View Details</a>
                     <div class="text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -154,6 +154,15 @@
                         </a>
                         <a href="{{ route('admin.members.index') }}" class="btn btn-lg btn-primary">
                             <i class="fas fa-users-cog me-2"></i> Manage Members
+                        </a>
+                        <a href="{{ route('admin.news.index') }}" class="btn btn-lg btn-info">
+                            <i class="fas fa-newspaper me-2"></i> Manage News
+                        </a>
+                        <a href="{{ route('admin.events.index') }}" class="btn btn-lg btn-warning">
+                            <i class="fas fa-calendar-alt me-2"></i> Manage Events
+                        </a>
+                        <a href="{{ route('admin.gallery.index') }}" class="btn btn-lg btn-secondary">
+                            <i class="fas fa-images me-2"></i> Manage Gallery
                         </a>
                         <a href="{{ route('admin.admins.create') }}" class="btn btn-lg btn-success">
                             <i class="fas fa-user-shield me-2"></i> Create New Admin

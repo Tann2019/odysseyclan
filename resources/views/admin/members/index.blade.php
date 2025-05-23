@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.app')
 
 @section('content')
 <div class="container py-5">
@@ -14,8 +14,8 @@
         </div>
     </div>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-white">
+    <div class="card bg-dark-gray shadow-sm mb-4">
+        <div class="card-header bg-dark-gray">
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <h5 class="mb-0">Member List</h5>
@@ -33,8 +33,8 @@
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
+                <table class="table table-dark table-hover align-middle mb-0">
+                    <thead class="table-dark">
                         <tr>
                             <th>ID</th>
                             <th>Avatar</th>
@@ -149,7 +149,7 @@
                 </table>
             </div>
         </div>
-        <div class="card-footer bg-white">
+        <div class="card-footer bg-dark-gray">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="text-muted small">
@@ -165,8 +165,8 @@
         </div>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-white">
+    <div class="card bg-dark-gray shadow-sm">
+        <div class="card-header bg-dark-gray">
             <h5 class="mb-0">Filter Options</h5>
         </div>
         <div class="card-body">

@@ -62,16 +62,6 @@ class VerificationController extends Controller
      */
     public function adminIndex()
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $pendingMembers = Member::where('verification_status', 'pending')
             ->with('user')
             ->latest()
@@ -98,16 +88,6 @@ class VerificationController extends Controller
      */
     public function adminShow($id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::with('user')->findOrFail($id);
         
         return view('admin.verification.show', compact('member'));
@@ -118,16 +98,6 @@ class VerificationController extends Controller
      */
     public function approve(Request $request, $id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::findOrFail($id);
         
         $request->validate([
@@ -145,16 +115,6 @@ class VerificationController extends Controller
      */
     public function reject(Request $request, $id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::findOrFail($id);
         
         $request->validate([
@@ -172,16 +132,6 @@ class VerificationController extends Controller
      */
     public function resetToPending(Request $request, $id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::findOrFail($id);
         
         $request->validate([

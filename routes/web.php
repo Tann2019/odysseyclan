@@ -57,8 +57,8 @@ Route::middleware('auth')->group(function () {
     // Routes that require verified member status
     Route::get('/profile', [AuthController::class, 'dashboard'])->name('profile.dashboard');
     
-    // Admin Routes
-    Route::prefix('admin')->group(function () {
+    // Admin Routes - Protected by middleware
+    Route::prefix('admin')->middleware(\App\Http\Middleware\AdminMiddleware::class)->group(function () {
         // Admin dashboard
         Route::get('/', [App\Http\Controllers\AdminController::class, 'dashboard'])->name('admin.dashboard');
         
@@ -78,6 +78,39 @@ Route::middleware('auth')->group(function () {
         Route::post('/verification/{id}/approve', [App\Http\Controllers\VerificationController::class, 'approve'])->name('admin.verification.approve');
         Route::post('/verification/{id}/reject', [App\Http\Controllers\VerificationController::class, 'reject'])->name('admin.verification.reject');
         Route::post('/verification/{id}/reset', [App\Http\Controllers\VerificationController::class, 'resetToPending'])->name('admin.verification.reset');
+        
+        // News management
+        Route::resource('news', App\Http\Controllers\NewsController::class)->names([
+            'index' => 'admin.news.index',
+            'create' => 'admin.news.create',
+            'store' => 'admin.news.store',
+            'show' => 'admin.news.show',
+            'edit' => 'admin.news.edit',
+            'update' => 'admin.news.update',
+            'destroy' => 'admin.news.destroy',
+        ]);
+        
+        // Events management
+        Route::resource('events', App\Http\Controllers\EventController::class)->names([
+            'index' => 'admin.events.index',
+            'create' => 'admin.events.create',
+            'store' => 'admin.events.store',
+            'show' => 'admin.events.show',
+            'edit' => 'admin.events.edit',
+            'update' => 'admin.events.update',
+            'destroy' => 'admin.events.destroy',
+        ]);
+        
+        // Gallery management
+        Route::resource('gallery', App\Http\Controllers\GalleryController::class)->names([
+            'index' => 'admin.gallery.index',
+            'create' => 'admin.gallery.create',
+            'store' => 'admin.gallery.store',
+            'show' => 'admin.gallery.show',
+            'edit' => 'admin.gallery.edit',
+            'update' => 'admin.gallery.update',
+            'destroy' => 'admin.gallery.destroy',
+        ]);
     });
 });
 

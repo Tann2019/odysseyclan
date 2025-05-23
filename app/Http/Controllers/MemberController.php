@@ -88,16 +88,6 @@ class MemberController extends Controller
      */
     public function adminIndex(Request $request)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $query = Member::query();
 
         // Handle search
@@ -151,16 +141,6 @@ class MemberController extends Controller
      */
     public function edit($id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::with('user')->findOrFail($id);
         $ranks = ['commander', 'captain', 'veteran', 'warrior', 'recruit'];
         
@@ -172,16 +152,6 @@ class MemberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::findOrFail($id);
         
         $validated = $request->validate([
@@ -204,16 +174,6 @@ class MemberController extends Controller
      */
     public function destroy($id)
     {
-        // Check if user is an admin
-        if (!Auth::check()) {
-            return redirect()->route('login');
-        }
-        
-        $user = Auth::user();
-        if (!$user->isAdmin()) {
-            return redirect()->route('home')
-                ->with('error', 'You do not have permission to access this area.');
-        }
         $member = Member::findOrFail($id);
         
         // Instead of deleting, we can make them inactive
