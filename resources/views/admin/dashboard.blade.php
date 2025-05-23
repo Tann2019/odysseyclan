@@ -269,6 +269,9 @@
                         <a href="{{ route('admin.gallery.index') }}" class="btn btn-lg btn-secondary">
                             <i class="fas fa-images me-2"></i> Manage Gallery
                         </a>
+                        <a href="{{ route('admin.streamers.index') }}" class="btn btn-lg btn-purple" style="background-color: #6441a5;">
+                            <i class="fab fa-twitch me-2"></i> Manage Streamers
+                        </a>
                         <a href="{{ route('admin.admins.create') }}" class="btn btn-lg btn-success">
                             <i class="fas fa-user-shield me-2"></i> Create New Admin
                         </a>

@@ -126,6 +126,18 @@ Route::middleware('auth')->group(function () {
             'update' => 'admin.gallery.update',
             'destroy' => 'admin.gallery.destroy',
         ]);
+        
+        // Streamer management
+        Route::resource('streamers', App\Http\Controllers\StreamerController::class)->names([
+            'index' => 'admin.streamers.index',
+            'create' => 'admin.streamers.create',
+            'store' => 'admin.streamers.store',
+            'edit' => 'admin.streamers.edit',
+            'update' => 'admin.streamers.update',
+            'destroy' => 'admin.streamers.destroy',
+        ]);
+        Route::post('/streamers/{streamer}/refresh', [App\Http\Controllers\StreamerController::class, 'refreshStatus'])->name('admin.streamers.refresh');
+        Route::post('/streamers/refresh-all', [App\Http\Controllers\StreamerController::class, 'refreshAll'])->name('admin.streamers.refresh-all');
     });
 });
 

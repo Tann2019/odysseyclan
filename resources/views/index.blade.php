@@ -25,25 +25,79 @@
     </div>
 </div>
 
-<section class="py-5 bg-dark-gray" id="live-stream">
+@if($liveStreamer)
+<section class="py-5 bg-dark-gray" id="live-stream" data-aos="fade-down">
     <div class="container my-5">
-        <h2 class="section-title" data-aos="fade-up">LIVE NOW</h2>
+        <h2 class="section-title" data-aos="fade-up">
+            <i class="fas fa-circle text-danger me-2" style="font-size: 0.5em; animation: pulse 2s infinite;"></i>
+            LIVE NOW
+        </h2>
         <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
             <div class="col-lg-10 col-xl-8">
-                <div class="stream-container bg-dark p-3 rounded" style="border: 3px solid var(--accent);">
+                <div class="stream-container bg-dark p-3 rounded position-relative" style="border: 3px solid var(--accent); box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);">
+                    <!-- Stream Info Header -->
+                    <div class="stream-info mb-3 p-3 bg-primary rounded">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h5 class="text-white mb-1">
+                                    <i class="fab fa-twitch me-2 text-accent"></i>
+                                    {{ $liveStreamer->display_name }}
+                                </h5>
+                                @if($liveStreamer->stream_title)
+                                    <p class="text-white-50 mb-1 small">{{ $liveStreamer->stream_title }}</p>
+                                @endif
+                                @if($liveStreamer->game_name)
+                                    <span class="badge bg-accent text-dark">{{ $liveStreamer->game_name }}</span>
+                                @endif
+                            </div>
+                            <div class="col-md-4 text-md-end">
+                                @if($liveStreamer->viewer_count)
+                                    <div class="text-white">
+                                        <i class="fas fa-eye me-1"></i>
+                                        {{ number_format($liveStreamer->viewer_count) }} viewers
+                                        {{-- @dd($liveStreamer->twitch_embed_url) --}}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Twitch Embed -->
                     <div class="ratio ratio-16x9">
                         <iframe 
-                            src="https://player.twitch.tv/?channel=raabbits&parent={{ request()->getHost() }}" 
+                            id="twitch-embed"
+                            src="{{ $liveStreamer->twitch_embed_url }}" 
                             height="100%" 
                             width="100%" 
                             allowfullscreen="true" 
                             scrolling="no" 
-                            frameborder="0">
+                            frameborder="0"
+                            allow="autoplay; fullscreen"
+                            sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
+                            onload="this.style.display='block'"
+                            onerror="showEmbedFallback()">
                         </iframe>
+                        
+                        <!-- Fallback content if iframe fails to load -->
+                        <div id="embed-fallback" style="display: none;" class="d-flex flex-column align-items-center justify-content-center h-100 bg-dark text-white">
+                            <i class="fab fa-twitch fa-4x text-purple mb-3"></i>
+                            <h4 class="mb-3">{{ $liveStreamer->display_name }} is Live!</h4>
+                            @if($liveStreamer->stream_title)
+                                <p class="mb-3 text-center">{{ $liveStreamer->stream_title }}</p>
+                            @endif
+                            <a href="{{ $liveStreamer->twitch_channel_url }}" target="_blank" class="btn btn-purple btn-lg">
+                                <i class="fab fa-twitch me-2"></i> Watch on Twitch
+                            </a>
+                        </div>
                     </div>
+                    
+                    <!-- Stream Actions -->
                     <div class="text-center mt-3">
-                        <a href="https://www.twitch.tv/raabbits" target="_blank" class="btn btn-outline">
+                        <a href="{{ $liveStreamer->twitch_channel_url }}" target="_blank" class="btn btn-accent me-2">
                             <i class="fab fa-twitch me-2"></i> Watch on Twitch
+                        </a>
+                        <a href="https://discord.gg/hwkZtRZGJs" target="_blank" class="btn btn-outline">
+                            <i class="fab fa-discord me-2"></i> Join Chat
                         </a>
                     </div>
                 </div>
@@ -51,6 +105,7 @@
         </div>
     </div>
 </section>
+@endif
 
 <section class="py-5" id="about">
     <div class="container my-5">
@@ -258,6 +313,46 @@ document.addEventListener('DOMContentLoaded', function() {
     // Example stat animations
     animateValue("total-victories", 0, 157, 2000);
     animateValue("achievements", 0, 42, 2000);
+    
+    // Handle Twitch embed fallback
+    @if($liveStreamer ?? false)
+    const twitchIframe = document.getElementById('twitch-embed');
+    const fallbackDiv = document.getElementById('embed-fallback');
+    
+    // Check if iframe loads successfully after a delay
+    setTimeout(() => {
+        if (twitchIframe) {
+            try {
+                // Try to access the iframe's content to see if it loaded
+                const iframeDoc = twitchIframe.contentDocument || twitchIframe.contentWindow.document;
+                if (!iframeDoc || iframeDoc.location.href === 'about:blank') {
+                    showEmbedFallback();
+                }
+            } catch (e) {
+                // Cross-origin restriction means it probably loaded successfully
+                console.log('Twitch embed loaded (cross-origin access blocked as expected)');
+            }
+        }
+    }, 3000);
+    
+    // Listen for CSP violations
+    document.addEventListener('securitypolicyviolation', function(e) {
+        if (e.blockedURI.includes('twitch.tv')) {
+            console.warn('Twitch embed blocked by CSP:', e);
+            showEmbedFallback();
+        }
+    });
+    @endif
 });
+
+function showEmbedFallback() {
+    const twitchIframe = document.getElementById('twitch-embed');
+    const fallbackDiv = document.getElementById('embed-fallback');
+    
+    if (twitchIframe && fallbackDiv) {
+        twitchIframe.style.display = 'none';
+        fallbackDiv.style.display = 'flex';
+    }
+}
 </script>
 @endsection

@@ -7,6 +7,8 @@ use App\Models\Member;
 use App\Models\News;
 use App\Models\Event;
 use App\Models\GalleryImage;
+use App\Models\Streamer;
+use App\Services\TwitchService;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -18,14 +20,18 @@ class HomeController extends Controller
     {
         // No middleware here
     }
-    public function index()
+    public function index(TwitchService $twitchService)
     {
         // Get featured/latest content for homepage
         $latestNews = News::published()->latest()->take(3)->get();
         $featuredEvents = Event::active()->featured()->upcoming()->take(3)->get();
         $upcomingEvents = Event::active()->upcoming()->take(3)->get();
         
-        return view('index', compact('latestNews', 'featuredEvents', 'upcomingEvents'));
+        // Get current live streamer
+        $liveStreamer = $twitchService->getCurrentLiveStreamer();
+        // dd($liveStreamer);
+        
+        return view('index', compact('latestNews', 'featuredEvents', 'upcomingEvents', 'liveStreamer'));
     }
     
     public function news()

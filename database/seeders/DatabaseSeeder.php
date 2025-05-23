@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         // Call the admin seeder
         $this->call([
             AdminSeeder::class,
+            StreamerSeeder::class,
         ]);
     }
 }

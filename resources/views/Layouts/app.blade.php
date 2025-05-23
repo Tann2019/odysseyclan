@@ -652,6 +652,23 @@
             transform: translateY(-2px);
         }
         
+        .btn-purple {
+            background-color: #6441a5;
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-purple:hover {
+            background-color: #5a3a8b;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .text-purple {
+            color: #6441a5 !important;
+        }
+        
         /* Animations */
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -667,6 +684,12 @@
             to {
                 background-position: 200% center;
             }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
         
         /* Media Queries */
