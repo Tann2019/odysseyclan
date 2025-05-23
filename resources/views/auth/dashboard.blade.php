@@ -105,17 +105,17 @@
                     <h5 class="mb-0">Upcoming Events</h5>
                     <a href="{{ route('events.index') }}" class="btn btn-sm btn-outline-light">View All</a>
                 </div>
-                <div class="card-body p-0">
-                    <div class="list-group list-group-flush">
-                        <div class="list-group-item bg-dark-gray text-white border-light">
-                            <div class="d-flex w-100 justify-content-between">
+                <div class="card-body p-0 bg-dark-gray">
+                    <div class="list-group list-group-flush bg-dark-gray">
+                        <div class="list-group-item bg-dark-gray border-light">
+                            <div class="d-flex w-100 justify-content-between bg-dark-gray">
                                 <h5 class="mb-1 text-accent">Spring Championship 2025</h5>
                                 <small class="text-warning">3 days left</small>
                             </div>
                             <p class="mb-1">Join us for our quarterly championship where clan members compete for the title of Odyssey Champion.</p>
                             <small>Feb 28, 2025 • 18:00 UTC</small>
                         </div>
-                        <div class="list-group-item bg-dark-gray text-white border-light">
+                        <div class="list-group-item bg-dark-gray border-light">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1 text-accent">Strategy Training Sessions</h5>
                                 <small class="text-success">Weekly</small>
@@ -123,7 +123,7 @@
                             <p class="mb-1">Weekly training sessions focused on improving team coordination and tactical awareness.</p>
                             <small>Every Thursday • 20:00 UTC</small>
                         </div>
-                        <div class="list-group-item bg-dark-gray text-white border-light">
+                        <div class="list-group-item bg-dark-gray border-light">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1 text-accent">Clan vs Clan Battle</h5>
                                 <small class="text-danger">Major Event</small>

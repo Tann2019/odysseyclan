@@ -157,9 +157,9 @@
             </div>
         @else
             <div class="text-center py-5">
-                <i class="fas fa-calendar-plus fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">No upcoming events</h5>
-                <p class="text-muted">Check back soon for new clan events and tournaments!</p>
+                <i class="fas fa-calendar-plus fa-3x text-white mb-3"></i>
+                <h5 class="text-white">No upcoming events</h5>
+                <p class="text-white">Check back soon for new clan events and tournaments!</p>
             </div>
         @endif
         
@@ -184,9 +184,9 @@
                     High-quality apparel designed for warriors, by warriors.
                 </p>
                 <div class="d-flex flex-wrap gap-3">
-                    <span class="badge bg-accent text-dark px-3 py-2 fs-6">Premium Quality</span>
-                    <span class="badge bg-accent text-dark px-3 py-2 fs-6">Exclusive Designs</span>
-                    <span class="badge bg-accent text-dark px-3 py-2 fs-6">Limited Edition</span>
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-6">Premium Quality</span>
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-6">Exclusive Designs</span>
+                    <span class="badge bg-warning text-dark px-3 py-2 fs-6">Limited Edition</span>
                 </div>
             </div>
             <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
@@ -194,7 +194,7 @@
                     <i class="fas fa-shopping-cart me-2"></i> Shop Now
                 </a>
                 <div class="mt-3">
-                    <small class="text-white opacity-75">Free shipping on orders over $50</small>
+                    {{-- <small class="text-white opacity-75">Free shipping on orders over $50</small> --}}
                 </div>
             </div>
         </div>
@@ -227,9 +227,9 @@
             </div>
         @else
             <div class="text-center py-5">
-                <i class="fas fa-newspaper fa-3x text-muted mb-3"></i>
-                <h5 class="text-muted">No news articles</h5>
-                <p class="text-muted">Check back soon for the latest clan updates and announcements!</p>
+                <i class="fas fa-newspaper fa-3x text-white mb-3"></i>
+                <h5 class="text-white">No news articles</h5>
+                <p class="text-white">Check back soon for the latest clan updates and announcements!</p>
             </div>
         @endif
     </div>

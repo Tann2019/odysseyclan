@@ -36,7 +36,7 @@
         <div class="col-lg-8">
             <!-- Member Edit Form -->
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h5 class="mb-0">Member Information</h5>
                 </div>
                 <div class="card-body">
@@ -90,7 +90,7 @@
 
             <!-- Verification Status -->
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h5 class="mb-0">Verification Status</h5>
                 </div>
                 <div class="card-body">
@@ -132,7 +132,7 @@
         <div class="col-lg-4">
             <!-- Member Profile Preview -->
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h5 class="mb-0">Profile Preview</h5>
                 </div>
                 <div class="card-body text-center">
@@ -174,7 +174,7 @@
             <!-- User Account Info -->
             @if($member->user)
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white">
+                <div class="card-header">
                     <h5 class="mb-0">User Account</h5>
                 </div>
                 <div class="card-body">
