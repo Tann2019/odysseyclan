@@ -57,7 +57,7 @@
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
                 <h2 class="section-title text-start">WHO WE ARE</h2>
-                <p class="lead text-accent mb-4">A brotherhood of elite gamers</p>
+                <p class="lead text-accent mb-4">A brotherhood of elite gamers, forged in the heat of battle and bound by honor.</p>
                  <div class="d-flex gap-4 mt-4">
                     <div class="text-center">
                         <h3 class="text-accent"></h3>

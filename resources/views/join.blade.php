@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 d-none d-md-block">
-                        <img src="/images/join-hero.jpg" alt="Join Odyssey Clan" class="img-fluid h-100" style="object-fit: cover;">
+                        <img src="/images/logo.png" alt="Join Odyssey Clan" class="img-fluid h-100" style="object-fit: cover;">
                     </div>
                 </div>
             </div>
@@ -200,14 +200,7 @@
 @section('extra-js')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // For demonstration - simulate image errors
-        document.querySelectorAll('img').forEach(img => {
-            if (img.src.includes('join-hero.jpg')) {
-                img.onerror = function() {
-                    this.src = 'https://via.placeholder.com/800x600/333333/FFD700?text=Join+Odyssey+Clan';
-                };
-            }
-        });
+        // Add your JavaScript here if needed
     });
 </script>
 @endsection
