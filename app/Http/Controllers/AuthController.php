@@ -38,6 +38,7 @@ class AuthController extends Controller
             'password' => ['required', 'confirmed', Password::defaults()],
             'discord_id' => 'required|string|max:255|unique:members',
             'username' => 'required|string|max:255',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
         
         $user = User::create([

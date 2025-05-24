@@ -90,6 +90,18 @@
                                 id="password_confirmation" name="password_confirmation" required>
                         </div>
                         
+                        <!-- reCAPTCHA -->
+                        <div class="mb-3">
+                            <label class="form-label text-white">Security Verification</label>
+                            <div class="d-flex justify-content-center">
+                                {!! NoCaptcha::renderJs() !!}
+                                {!! NoCaptcha::display(['data-theme' => 'dark']) !!}
+                            </div>
+                            @error('g-recaptcha-response')
+                                <div class="text-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-accent btn-lg">
                                 <i class="fas fa-user-plus me-2"></i>Register
