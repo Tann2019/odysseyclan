@@ -13,10 +13,10 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // Update Twitch stream statuses every 3 minutes
-        $schedule->command('twitch:update-statuses')
-                 ->everyThreeMinutes()
-                 ->withoutOverlapping()
-                 ->runInBackground();
+        // $schedule->command('twitch:update-statuses')
+        //          ->everyThreeMinutes()
+        //          ->withoutOverlapping()
+        //          ->runInBackground();
     }
 
     /**
