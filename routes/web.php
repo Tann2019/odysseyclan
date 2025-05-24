@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
         
         // Member management
         Route::get('/members', [App\Http\Controllers\MemberController::class, 'adminIndex'])->name('admin.members.index');
+        Route::get('/members/{id}', [App\Http\Controllers\MemberController::class, 'show'])->name('admin.members.show');
         Route::get('/members/{id}/edit', [App\Http\Controllers\MemberController::class, 'edit'])->name('admin.members.edit');
         Route::put('/members/{id}', [App\Http\Controllers\MemberController::class, 'update'])->name('admin.members.update');
         Route::delete('/members/{id}', [App\Http\Controllers\MemberController::class, 'destroy'])->name('admin.members.destroy');

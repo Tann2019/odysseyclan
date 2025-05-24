@@ -181,8 +181,8 @@
                                 <span>{{ ucfirst($event->type) }}</span>
                                 @if($event->is_featured)
                                     <span class="badge bg-warning text-dark">Featured</span>
-                                @elseif($event->days_left <= 3)
-                                    <span class="badge bg-danger">{{ $event->days_left }} Days Left</span>
+                                @elseif((int)$event->days_left <= 3)
+                                    <span class="badge bg-danger">{{ (int)$event->days_left }} Days Left</span>
                                 @else
                                     <span class="badge bg-{{ $event->type_color }}">{{ ucfirst($event->type) }}</span>
                                 @endif

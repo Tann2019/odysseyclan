@@ -65,8 +65,8 @@
                                     <div>
                                         {{ $event->event_date->format('M d, Y') }}
                                         <br><small class="text-muted">{{ $event->event_date->format('H:i') }}</small>
-                                        @if($event->days_left > 0)
-                                            <br><small class="text-warning">{{ $event->days_left }} days left</small>
+                                        @if((int)$event->days_left > 0)
+                                            <br><small class="text-warning">{{ (int)$event->days_left }} days left</small>
                                         @elseif($event->event_date->isPast())
                                             <br><small class="text-muted">Past event</small>
                                         @else

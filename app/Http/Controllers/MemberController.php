@@ -138,6 +138,16 @@ class MemberController extends Controller
     }
     
     /**
+     * Display the specified member.
+     */
+    public function show($id)
+    {
+        $member = Member::with('user')->findOrFail($id);
+        
+        return view('admin.members.show', compact('member'));
+    }
+    
+    /**
      * Show the form for editing the specified member.
      */
     public function edit($id)

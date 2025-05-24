@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             StreamerSeeder::class,
+            EventSeeder::class,
         ]);
     }
 }

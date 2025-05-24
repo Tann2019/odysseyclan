@@ -438,6 +438,10 @@
             color: var(--accent) !important;
         }
         
+        .text-muted {
+            color: #e8e8e8 !important;
+        }
+        
         /* Form elements */
         .form-label {
             color: var(--text);

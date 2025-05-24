@@ -104,6 +104,9 @@
                                 </td>
                                 <td>
                                     <div class="btn-group">
+                                        <a href="{{ route('admin.members.show', $member->id) }}" class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         <a href="{{ route('admin.members.edit', $member->id) }}" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>

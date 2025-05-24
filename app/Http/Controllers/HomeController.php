@@ -69,69 +69,15 @@ class HomeController extends Controller
             return redirect()->route('verification.pending');
         }
         
-        // For demonstration, we'll create some sample events
-        $events = [
-            [
-                'id' => 1,
-                'title' => 'Spring Championship 2025',
-                'type' => 'Tournament',
-                'date' => '2025-02-28',
-                'image' => '/images/event1.jpg',
-                'description' => 'Join us for our quarterly championship where clan members compete for the title of Odyssey Champion.',
-                'badge' => '3 Days Left',
-                'badge_color' => 'danger'
-            ],
-            [
-                'id' => 2,
-                'title' => 'Strategy Training Sessions',
-                'type' => 'Training',
-                'date' => 'Every Thursday',
-                'image' => '/images/event2.jpg',
-                'description' => 'Weekly training sessions focused on improving team coordination and tactical awareness.',
-                'badge' => 'Weekly',
-                'badge_color' => 'success'
-            ],
-            [
-                'id' => 3,
-                'title' => 'Anniversary Community Stream',
-                'type' => 'Special',
-                'date' => '2025-03-15',
-                'image' => '/images/event3.jpg',
-                'description' => 'Join us for a special stream celebrating our 5th anniversary with giveaways and special guests.',
-                'badge' => 'Featured',
-                'badge_color' => 'warning'
-            ],
-            [
-                'id' => 4,
-                'title' => 'Recruitment Trial',
-                'type' => 'Recruitment',
-                'date' => '2025-03-05',
-                'image' => '/images/event4.jpg',
-                'description' => 'Think you have what it takes to join Odyssey? Prove yourself in our recruitment trials.',
-                'badge' => 'Open Registration',
-                'badge_color' => 'primary'
-            ],
-            [
-                'id' => 5,
-                'title' => 'Clan vs Clan Battle',
-                'type' => 'Competition',
-                'date' => '2025-03-22',
-                'image' => '/images/event5.jpg',
-                'description' => 'Epic showdown against our rivals. All members required to participate.',
-                'badge' => 'Major Event',
-                'badge_color' => 'danger'
-            ],
-            [
-                'id' => 6,
-                'title' => 'New Game Release Party',
-                'type' => 'Social',
-                'date' => '2025-04-10',
-                'image' => '/images/event6.jpg',
-                'description' => 'Join us as we celebrate and explore the latest game release together.',
-                'badge' => 'Upcoming',
-                'badge_color' => 'info'
-            ]
-        ];
+        // Get real events from database
+        $query = Event::with('creator')->active();
+        
+        // Filter by type if requested
+        if ($request->has('type') && $request->type !== 'all') {
+            $query->where('type', $request->type);
+        }
+        
+        $events = $query->latest('event_date')->get();
 
         return view('events.index', compact('events'));
     }
@@ -159,159 +105,27 @@ class HomeController extends Controller
             return redirect()->route('verification.pending');
         }
         
-        // For demonstration, we'll create a sample event detail based on ID
-        $events = [
-            1 => [
-                'id' => 1,
-                'title' => 'Spring Championship 2025',
-                'type' => 'Tournament',
-                'date' => '2025-02-28',
-                'image' => '/images/event1.jpg',
-                'description' => 'Join us for our quarterly championship where clan members compete for the title of Odyssey Champion.',
-                'badge' => '3 Days Left',
-                'badge_color' => 'danger',
-                'location' => 'Main Discord Channel',
-                'time' => '18:00 UTC',
-                'duration' => '4 hours',
-                'prizes' => [
-                    '1st Place: Champion Title + $100 Gift Card',
-                    '2nd Place: $50 Gift Card',
-                    '3rd Place: $25 Gift Card'
-                ],
-                'rules' => [
-                    'All participants must be registered clan members',
-                    'Standard tournament rules apply',
-                    'Match format: Best of 3',
-                    'Finals: Best of 5'
-                ],
-                'organizer' => 'Commander Phoenix'
-            ],
-            2 => [
-                'id' => 2,
-                'title' => 'Strategy Training Sessions',
-                'type' => 'Training',
-                'date' => 'Every Thursday',
-                'image' => '/images/event2.jpg',
-                'description' => 'Weekly training sessions focused on improving team coordination and tactical awareness.',
-                'badge' => 'Weekly',
-                'badge_color' => 'success',
-                'location' => 'Training Discord Channel',
-                'time' => '20:00 UTC',
-                'duration' => '2 hours',
-                'content' => [
-                    'Map strategy analysis',
-                    'Team composition review',
-                    'Advanced tactics practice',
-                    'Role-specific training'
-                ],
-                'requirements' => [
-                    'All members welcome',
-                    'Recommended for all ranks',
-                    'Voice communication required'
-                ],
-                'organizer' => 'Captain Vortex'
-            ],
-            3 => [
-                'id' => 3,
-                'title' => 'Anniversary Community Stream',
-                'type' => 'Special',
-                'date' => '2025-03-15',
-                'image' => '/images/event3.jpg',
-                'description' => 'Join us for a special stream celebrating our 5th anniversary with giveaways and special guests.',
-                'badge' => 'Featured',
-                'badge_color' => 'warning',
-                'location' => 'Twitch and Discord',
-                'time' => '19:00 UTC',
-                'duration' => '5 hours',
-                'highlights' => [
-                    'Special guest appearances',
-                    'Exclusive game reveals',
-                    'Community game sessions',
-                    'Premium giveaways'
-                ],
-                'giveaways' => [
-                    'Gaming peripherals',
-                    'Gift cards',
-                    'Exclusive merchandise',
-                    'Game keys'
-                ],
-                'organizer' => 'Commander Phoenix and the Leadership Team'
-            ],
-            4 => [
-                'id' => 4,
-                'title' => 'Recruitment Trial',
-                'type' => 'Recruitment',
-                'date' => '2025-03-05',
-                'image' => '/images/event4.jpg',
-                'description' => 'Think you have what it takes to join Odyssey? Prove yourself in our recruitment trials.',
-                'badge' => 'Open Registration',
-                'badge_color' => 'primary',
-                'location' => 'Recruitment Discord Channel',
-                'time' => '18:00 UTC',
-                'duration' => '3 hours',
-                'requirements' => [
-                    'Minimum age: 18+ (mandatory)',
-                    'Voice communication required',
-                    'Previous competitive experience preferred'
-                ],
-                'process' => [
-                    'Skill assessment matches',
-                    'Team coordination evaluation',
-                    'Communication quality check',
-                    'Interview with clan leadership'
-                ],
-                'organizer' => 'Recruitment Officers'
-            ],
-            5 => [
-                'id' => 5,
-                'title' => 'Clan vs Clan Battle',
-                'type' => 'Competition',
-                'date' => '2025-03-22',
-                'image' => '/images/event5.jpg',
-                'description' => 'Epic showdown against our rivals. All members required to participate.',
-                'badge' => 'Major Event',
-                'badge_color' => 'danger',
-                'location' => 'Competition Server',
-                'time' => '19:00 UTC',
-                'duration' => '3 hours',
-                'opponent' => 'The Phoenix Legion',
-                'format' => [
-                    'Map pool: Tournament standard',
-                    'Match format: Best of 5',
-                    'Team size: 6v6'
-                ],
-                'prizes' => [
-                    'Winning clan receives trophy and bragging rights',
-                    'Individual MVP award for best performer'
-                ],
-                'organizer' => 'Commander Phoenix'
-            ],
-            6 => [
-                'id' => 6,
-                'title' => 'New Game Release Party',
-                'type' => 'Social',
-                'date' => '2025-04-10',
-                'image' => '/images/event6.jpg',
-                'description' => 'Join us as we celebrate and explore the latest game release together.',
-                'badge' => 'Upcoming',
-                'badge_color' => 'info',
-                'location' => 'Main Discord Channel',
-                'time' => '21:00 UTC',
-                'duration' => '4 hours',
-                'game' => 'Stellar Warfare 2',
-                'activities' => [
-                    'Group play sessions',
-                    'Tips and tricks sharing',
-                    'First impressions discussion',
-                    'Casual tournaments'
-                ],
-                'organizer' => 'Social Committee'
-            ]
-        ];
-
-        $event = $events[$id] ?? abort(404);
+        // Get the actual event from database
+        $event = Event::with('creator')->active()->findOrFail($id);
         
-        return view('events.show', compact('event'));
+        // Get related events for suggestions
+        $relatedEvents = Event::active()
+            ->where('id', '!=', $id)
+            ->where('type', $event->type)
+            ->take(2)
+            ->get();
+            
+        // If not enough related events of same type, get any other events
+        if ($relatedEvents->count() < 2) {
+            $additionalEvents = Event::active()
+                ->where('id', '!=', $id)
+                ->whereNotIn('id', $relatedEvents->pluck('id'))
+                ->take(2 - $relatedEvents->count())
+                ->get();
+            $relatedEvents = $relatedEvents->merge($additionalEvents);
+        }
+        
+        return view('events.show', compact('event', 'relatedEvents'));
     }
     
     public function leaderboard(Request $request)

@@ -235,7 +235,7 @@
                                 </div>
                                 <div class="flex-grow-1">
                                     <div class="fw-medium">{{ Str::limit($event->title, 40) }}</div>
-                                    <small class="text-muted">{{ $event->event_date->format('M d, Y') }} • {{ $event->days_left }} days left</small>
+                                    <small class="text-muted">{{ $event->event_date->format('M d, Y') }} • {{ (int)$event->days_left }} days left</small>
                                 </div>
                             </div>
                         @empty

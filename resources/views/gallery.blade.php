@@ -158,7 +158,7 @@
         <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
             <div class="card bg-dark-gray border-accent p-4">
                 <h3 class="text-accent mb-3">Share Your Moments</h3>
-                <p>Have amazing screenshots or clips from clan events? Share them with the community!</p>
+                <p class="text-white">Have amazing screenshots or clips from clan events? Share them with the community!</p>
                 <div class="d-flex justify-content-center mt-3">
                     <a href="https://discord.gg/odyssey" class="btn btn-accent me-2">
                         <i class="fab fa-discord me-2"></i> Submit on Discord
