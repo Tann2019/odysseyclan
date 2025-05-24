@@ -106,10 +106,12 @@ class MemberController extends Controller
         }
         
         // Handle active/inactive filter
-        if ($request->has('active')) {
-            $isActive = filter_var($request->input('active'), FILTER_VALIDATE_BOOLEAN);
+        $status = $request->input('active', null);
+        if ($status !== null && $status !== 'all') {
+            $isActive = filter_var($status, FILTER_VALIDATE_BOOLEAN);
             $query->where('is_active', $isActive);
         }
+        // If status is 'all' or not provided, don't apply any filter - show all members
 
         // Include user relationship
         $query->with('user');
@@ -136,7 +138,6 @@ class MemberController extends Controller
 
         return view('admin.members.index', compact('members', 'ranks'));
     }
-    
     /**
      * Display the specified member.
      */
