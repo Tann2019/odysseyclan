@@ -103,71 +103,18 @@
                                         <a href="{{ route('admin.verification.show', $member->id) }}" class="btn btn-sm btn-primary">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#approveModal-{{ $member->id }}">
+                                        <button type="button" class="btn btn-sm btn-success approve-btn"
+                                                data-member-id="{{ $member->id }}"
+                                                data-member-username="{{ $member->username }}"
+                                                data-member-discord="{{ $member->discord_id }}">
                                             <i class="fas fa-check"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal-{{ $member->id }}">
+                                        <button type="button" class="btn btn-sm btn-danger reject-btn"
+                                                data-member-id="{{ $member->id }}"
+                                                data-member-username="{{ $member->username }}"
+                                                data-member-discord="{{ $member->discord_id }}">
                                             <i class="fas fa-times"></i>
                                         </button>
-                                    </div>
-                                    
-                                    <!-- Approve Modal -->
-                                    <div class="modal fade" id="approveModal-{{ $member->id }}" tabindex="-1" aria-labelledby="approveModalLabel-{{ $member->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content bg-dark">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="approveModalLabel-{{ $member->id }}">Approve Member: {{ $member->username }}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="{{ route('admin.verification.approve', $member->id) }}" method="POST">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to approve this member?</p>
-                                                        <p><strong>Username:</strong> {{ $member->username }}</p>
-                                                        <p><strong>Discord ID:</strong> {{ $member->discord_id }}</p>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="notes-{{ $member->id }}" class="form-label">Approval Notes (Optional)</label>
-                                                            <textarea class="form-control" id="notes-{{ $member->id }}" name="notes" rows="3" placeholder="Add any notes about this approval"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-success">Approve Member</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Reject Modal -->
-                                    <div class="modal fade" id="rejectModal-{{ $member->id }}" tabindex="-1" aria-labelledby="rejectModalLabel-{{ $member->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="rejectModalLabel-{{ $member->id }}">Reject Member: {{ $member->username }}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="{{ route('admin.verification.reject', $member->id) }}" method="POST">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to reject this member?</p>
-                                                        <p><strong>Username:</strong> {{ $member->username }}</p>
-                                                        <p><strong>Discord ID:</strong> {{ $member->discord_id }}</p>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="reason-{{ $member->id }}" class="form-label">Rejection Reason (Required)</label>
-                                                            <textarea class="form-control" id="reason-{{ $member->id }}" name="reason" rows="3" placeholder="Provide a reason for rejection" required></textarea>
-                                                            <div class="form-text">This will be shown to the user.</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-danger">Reject Member</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -262,37 +209,11 @@
                                 <td class="align-middle">{{ $member->updated_at->format('M d, Y H:i') }}</td>
                                 <td class="align-middle">{{ Str::limit($member->verification_notes, 50) }}</td>
                                 <td class="align-middle">
-                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#resetModal-{{ $member->id }}">
+                                    <button type="button" class="btn btn-sm btn-warning reset-btn"
+                                            data-member-id="{{ $member->id }}"
+                                            data-member-username="{{ $member->username }}">
                                         <i class="fas fa-redo-alt me-1"></i> Reset
                                     </button>
-                                    
-                                    <!-- Reset Modal -->
-                                    <div class="modal fade" id="resetModal-{{ $member->id }}" tabindex="-1" aria-labelledby="resetModalLabel-{{ $member->id }}" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="resetModalLabel-{{ $member->id }}">Reset to Pending: {{ $member->username }}</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form action="{{ route('admin.verification.reset', $member->id) }}" method="POST">
-                                                    @csrf
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to reset this member's status to "pending"?</p>
-                                                        <p>This will allow them to be reconsidered for verification.</p>
-                                                        
-                                                        <div class="mb-3">
-                                                            <label for="reset-notes-{{ $member->id }}" class="form-label">Notes (Optional)</label>
-                                                            <textarea class="form-control" id="reset-notes-{{ $member->id }}" name="notes" rows="3" placeholder="Add any notes about this status reset"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-warning">Reset to Pending</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -303,4 +224,147 @@
         </div>
     </div>
 </div>
+
+<!-- Approve Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Approve Member: <span id="approve-username"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="approveForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <p>Are you sure you want to approve this member?</p>
+                    <p><strong>Username:</strong> <span id="approve-username-display"></span></p>
+                    <p><strong>Discord ID:</strong> <span id="approve-discord-display"></span></p>
+                    
+                    <div class="mb-3">
+                        <label for="approve-notes" class="form-label">Approval Notes (Optional)</label>
+                        <textarea class="form-control" id="approve-notes" name="notes" rows="3" placeholder="Add any notes about this approval"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Approve Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Reject Member: <span id="reject-username"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="rejectForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <p>Are you sure you want to reject this member?</p>
+                    <p><strong>Username:</strong> <span id="reject-username-display"></span></p>
+                    <p><strong>Discord ID:</strong> <span id="reject-discord-display"></span></p>
+                    
+                    <div class="mb-3">
+                        <label for="reject-reason" class="form-label">Rejection Reason (Required)</label>
+                        <textarea class="form-control" id="reject-reason" name="reason" rows="3" placeholder="Provide a reason for rejection" required></textarea>
+                        <div class="form-text">This will be shown to the user.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-danger">Reject Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Reset Modal -->
+<div class="modal fade" id="resetModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Reset to Pending: <span id="reset-username"></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="resetForm" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <p>Are you sure you want to reset this member's status to "pending"?</p>
+                    <p>This will allow them to be reconsidered for verification.</p>
+                    
+                    <div class="mb-3">
+                        <label for="reset-notes" class="form-label">Notes (Optional)</label>
+                        <textarea class="form-control" id="reset-notes" name="notes" rows="3" placeholder="Add any notes about this status reset"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning">Reset to Pending</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Approve buttons
+    document.querySelectorAll('.approve-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const memberId = this.dataset.memberId;
+            const username = this.dataset.memberUsername;
+            const discord = this.dataset.memberDiscord;
+            
+            document.getElementById('approve-username').textContent = username;
+            document.getElementById('approve-username-display').textContent = username;
+            document.getElementById('approve-discord-display').textContent = discord;
+            document.getElementById('approveForm').action = `/admin/verification/${memberId}/approve`;
+            document.getElementById('approve-notes').value = '';
+            
+            const modal = new bootstrap.Modal(document.getElementById('approveModal'));
+            modal.show();
+        });
+    });
+    
+    // Reject buttons
+    document.querySelectorAll('.reject-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const memberId = this.dataset.memberId;
+            const username = this.dataset.memberUsername;
+            const discord = this.dataset.memberDiscord;
+            
+            document.getElementById('reject-username').textContent = username;
+            document.getElementById('reject-username-display').textContent = username;
+            document.getElementById('reject-discord-display').textContent = discord;
+            document.getElementById('rejectForm').action = `/admin/verification/${memberId}/reject`;
+            document.getElementById('reject-reason').value = '';
+            
+            const modal = new bootstrap.Modal(document.getElementById('rejectModal'));
+            modal.show();
+        });
+    });
+    
+    // Reset buttons
+    document.querySelectorAll('.reset-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const memberId = this.dataset.memberId;
+            const username = this.dataset.memberUsername;
+            
+            document.getElementById('reset-username').textContent = username;
+            document.getElementById('resetForm').action = `/admin/verification/${memberId}/reset`;
+            document.getElementById('reset-notes').value = '';
+            
+            const modal = new bootstrap.Modal(document.getElementById('resetModal'));
+            modal.show();
+        });
+    });
+});
+</script>
+
 @endsection

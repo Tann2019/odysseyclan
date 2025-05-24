@@ -97,35 +97,13 @@
                                         <a href="{{ route('admin.events.edit', $event) }}" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                            data-bs-toggle="modal" data-bs-target="#deleteModal{{ $event->id }}">
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-btn"
+                                                data-event-id="{{ $event->id }}"
+                                                data-event-title="{{ $event->title }}">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
 
-                                    <!-- Delete Modal -->
-                                    <div class="modal fade" id="deleteModal{{ $event->id }}" tabindex="-1">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content bg-dark">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Delete Event</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Are you sure you want to delete <strong>{{ $event->title }}</strong>?</p>
-                                                    <p class="text-muted small">This action cannot be undone.</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                    <form action="{{ route('admin.events.destroy', $event) }}" method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete Event</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -151,4 +129,46 @@
         @endif
     </div>
 </div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Event</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="delete-event-title"></strong>?</p>
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete Event</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const eventId = this.dataset.eventId;
+            const eventTitle = this.dataset.eventTitle;
+            
+            document.getElementById('delete-event-title').textContent = eventTitle;
+            document.getElementById('deleteForm').action = `/admin/events/${eventId}`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        });
+    });
+});
+</script>
+
 @endsection

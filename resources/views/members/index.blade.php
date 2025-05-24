@@ -65,51 +65,15 @@
                         <div class="badge bg-danger mb-2">{{ ucfirst($member->rank) }}</div>
                         <p class="mb-3">{{ $member->description ?? 'A mighty warrior of Odyssey' }}</p>
                         
-                        <button type="button" class="btn btn-outline-warning btn-sm" 
-                                data-bs-toggle="modal" 
-                                data-bs-target="#memberModal-{{ $member->id }}">
+                        <button type="button" class="btn btn-outline-warning btn-sm view-member-btn"
+                                data-member-id="{{ $member->id }}"
+                                data-member-username="{{ $member->username }}"
+                                data-member-rank="{{ $member->rank }}"
+                                data-member-avatar="{{ $member->avatar_url ?? asset('images/default-avatar.png') }}"
+                                data-member-description="{{ $member->description ?? 'A mighty warrior of Odyssey' }}"
+                                data-member-achievements="{{ $member->achievements ? json_encode($member->achievements) : '[]' }}">
                             View Profile
                         </button>
-
-                        <!-- Individual Member Modal -->
-                        <div class="modal fade" id="memberModal-{{ $member->id }}" tabindex="-1">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content bg-dark">
-                                    <div class="modal-header border-warning">
-                                        <h5 class="modal-title text-warning">Warrior Profile</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="text-center mb-4">
-                                            <img src="{{ $member->avatar_url ?? asset('images/default-avatar.png') }}" 
-                                                 alt="{{ $member->username }}" 
-                                                 class="rounded-circle mb-3"
-                                                 style="width: 200px; height: 200px; object-fit: cover; border: 4px solid var(--spartan-gold);">
-                                            <h3 style="color: var(--spartan-gold)">{{ $member->username }}</h3>
-                                            <div class="badge bg-danger mb-3">{{ ucfirst($member->rank) }}</div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h5 class="text-warning">About</h5>
-                                                <p>{{ $member->description ?? 'A mighty warrior of Odyssey' }}</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h5 class="text-warning">Achievements</h5>
-                                                <ul class="list-unstyled">
-                                                    @if($member->achievements && count($member->achievements) > 0)
-                                                        @foreach($member->achievements as $achievement)
-                                                            <li><i class="fas fa-trophy text-warning me-2"></i>{{ $achievement }}</li>
-                                                        @endforeach
-                                                    @else
-                                                        <li>No achievements yet</li>
-                                                    @endif
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             @endforeach
@@ -118,6 +82,36 @@
         <div class="d-flex justify-content-center mt-4">
         </div>
     @endif
+</div>
+
+<!-- Single Reusable Member Modal -->
+<div class="modal fade" id="memberModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content bg-dark">
+            <div class="modal-header border-warning">
+                <h5 class="modal-title text-warning">Warrior Profile</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <img id="modal-avatar" src="" alt="" class="rounded-circle mb-3"
+                         style="width: 200px; height: 200px; object-fit: cover; border: 4px solid var(--spartan-gold);">
+                    <h3 id="modal-username" style="color: var(--spartan-gold)"></h3>
+                    <div id="modal-rank" class="badge bg-danger mb-3"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-warning">About</h5>
+                        <p id="modal-description"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-warning">Achievements</h5>
+                        <ul id="modal-achievements" class="list-unstyled"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -144,6 +138,45 @@ document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('memberView') === 'list') {
         listView.click();
     }
+
+    // Handle member modal
+    document.querySelectorAll('.view-member-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const memberData = {
+                username: this.dataset.memberUsername,
+                rank: this.dataset.memberRank,
+                avatar: this.dataset.memberAvatar,
+                description: this.dataset.memberDescription,
+                achievements: JSON.parse(this.dataset.memberAchievements || '[]')
+            };
+
+            // Populate modal
+            document.getElementById('modal-avatar').src = memberData.avatar;
+            document.getElementById('modal-avatar').alt = memberData.username;
+            document.getElementById('modal-username').textContent = memberData.username;
+            document.getElementById('modal-rank').textContent = memberData.rank.charAt(0).toUpperCase() + memberData.rank.slice(1);
+            document.getElementById('modal-description').textContent = memberData.description;
+
+            // Populate achievements
+            const achievementsList = document.getElementById('modal-achievements');
+            achievementsList.innerHTML = '';
+            if (memberData.achievements.length > 0) {
+                memberData.achievements.forEach(function(achievement) {
+                    const li = document.createElement('li');
+                    li.innerHTML = '<i class="fas fa-trophy text-warning me-2"></i>' + achievement;
+                    achievementsList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'No achievements yet';
+                achievementsList.appendChild(li);
+            }
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('memberModal'));
+            modal.show();
+        });
+    });
 });
 </script>
 

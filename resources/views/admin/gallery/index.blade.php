@@ -72,8 +72,10 @@
                                             <a href="{{ route('admin.gallery.edit', $image) }}" class="btn btn-outline-primary btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" class="btn btn-outline-danger btn-sm" 
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $image->id }}">
+                                            <button type="button" class="btn btn-outline-danger btn-sm delete-btn"
+                                                    data-image-id="{{ $image->id }}"
+                                                    data-image-title="{{ $image->title }}"
+                                                    data-image-url="{{ $image->image_url }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </div>
@@ -81,33 +83,6 @@
                                 </div>
                             </div>
 
-                            <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal{{ $image->id }}" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content bg-dark">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Delete Image</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>Are you sure you want to delete <strong>{{ $image->title }}</strong>?</p>
-                                            <div class="text-center mb-3">
-                                                <img src="{{ $image->image_url }}" alt="{{ $image->title }}" 
-                                                     class="img-fluid rounded" style="max-height: 150px;">
-                                            </div>
-                                            <p class="text-muted small">This action cannot be undone.</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            <form action="{{ route('admin.gallery.destroy', $image) }}" method="POST" class="d-inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger">Delete Image</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     @endforeach
                 </div>
@@ -132,6 +107,33 @@
     </div>
 </div>
 
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Image</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="delete-image-title"></strong>?</p>
+                <div class="text-center mb-3">
+                    <img id="delete-image-preview" src="" alt="" class="img-fluid rounded" style="max-height: 150px;">
+                </div>
+                <p class="text-muted small">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete Image</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 function filterByCategory(category) {
     const cards = document.querySelectorAll('[data-category]');
@@ -143,5 +145,23 @@ function filterByCategory(category) {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const imageId = this.dataset.imageId;
+            const imageTitle = this.dataset.imageTitle;
+            const imageUrl = this.dataset.imageUrl;
+            
+            document.getElementById('delete-image-title').textContent = imageTitle;
+            document.getElementById('delete-image-preview').src = imageUrl;
+            document.getElementById('delete-image-preview').alt = imageTitle;
+            document.getElementById('deleteForm').action = `/admin/gallery/${imageId}`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        });
+    });
+});
 </script>
 @endsection

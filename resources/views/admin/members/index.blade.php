@@ -107,35 +107,13 @@
                                         <a href="{{ route('admin.members.edit', $member->id) }}" class="btn btn-sm btn-outline-primary">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                            data-bs-toggle="modal" data-bs-target="#deleteModal{{ $member->id }}">
+                                        <button type="button" class="btn btn-sm btn-outline-danger delete-btn"
+                                                data-member-id="{{ $member->id }}"
+                                                data-member-username="{{ $member->username }}">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
 
-                                    <!-- Delete Modal -->
-                                    <div class="modal fade" id="deleteModal{{ $member->id }}" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Confirm Deactivation</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Are you sure you want to deactivate the member <strong>{{ $member->username }}</strong>?</p>
-                                                    <p class="text-muted small">This will mark the member as inactive but will not delete their data.</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                    <form action="{{ route('admin.members.destroy', $member->id) }}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Deactivate Member</button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                         @empty
@@ -217,4 +195,47 @@
         </div>
     </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Deactivation</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to deactivate the member <strong id="delete-username"></strong>?</p>
+                <p class="text-muted small">This will mark the member as inactive but will not delete their data.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Deactivate Member</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Delete buttons
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const memberId = this.dataset.memberId;
+            const username = this.dataset.memberUsername;
+            
+            document.getElementById('delete-username').textContent = username;
+            document.getElementById('deleteForm').action = `/admin/members/${memberId}`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        });
+    });
+});
+</script>
+
 @endsection

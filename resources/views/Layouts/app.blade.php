@@ -885,45 +885,7 @@
                 once: true
             });
             
-            // Fix modal backdrop clicking through issues
-            document.querySelectorAll('.modal').forEach(function(modal) {
-                modal.addEventListener('show.bs.modal', function(e) {
-                    // Ensure the modal is properly positioned
-                    e.target.style.display = 'block';
-                    document.body.classList.add('modal-open');
-                });
-                
-                modal.addEventListener('hide.bs.modal', function(e) {
-                    document.body.classList.remove('modal-open');
-                });
-                
-                // Prevent modal from closing when clicking inside the modal content
-                modal.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                });
-                
-                // Only close when clicking the backdrop
-                const modalDialog = modal.querySelector('.modal-dialog');
-                if (modalDialog) {
-                    modalDialog.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                    });
-                }
-            });
-            
-            // Fix for buttons that trigger modals
-            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function(button) {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const targetModal = document.querySelector(this.getAttribute('data-bs-target'));
-                    if (targetModal) {
-                        const modal = new bootstrap.Modal(targetModal);
-                        modal.show();
-                    }
-                });
-            });
+            // Let Bootstrap handle modals natively
         });
     </script>
     @yield('extra-js')

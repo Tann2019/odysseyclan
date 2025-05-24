@@ -106,8 +106,9 @@
                                         <a href="{{ route('admin.streamers.edit', $streamer) }}" class="btn btn-sm btn-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-danger" title="Delete" 
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $streamer->id }}">
+                                        <button type="button" class="btn btn-sm btn-danger delete-btn" title="Delete"
+                                                data-streamer-id="{{ $streamer->id }}"
+                                                data-streamer-name="{{ $streamer->display_name }}">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
@@ -131,22 +132,21 @@
     </div>
 </div>
 
-<!-- Delete Modals -->
-@foreach($streamers as $streamer)
-<div class="modal fade" id="deleteModal{{ $streamer->id }}" tabindex="-1" aria-hidden="true">
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content bg-dark">
             <div class="modal-header">
                 <h5 class="modal-title">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete <strong>{{ $streamer->display_name }}</strong>?</p>
+                <p>Are you sure you want to delete <strong id="delete-streamer-name"></strong>?</p>
                 <p class="text-muted">This action cannot be undone.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form action="{{ route('admin.streamers.destroy', $streamer) }}" method="POST" class="d-inline">
+                <form id="deleteForm" method="POST" class="d-inline">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete Streamer</button>
@@ -155,5 +155,21 @@
         </div>
     </div>
 </div>
-@endforeach
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-btn').forEach(function(button) {
+        button.addEventListener('click', function() {
+            const streamerId = this.dataset.streamerId;
+            const streamerName = this.dataset.streamerName;
+            
+            document.getElementById('delete-streamer-name').textContent = streamerName;
+            document.getElementById('deleteForm').action = `/admin/streamers/${streamerId}`;
+            
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        });
+    });
+});
+</script>
 @endsection
