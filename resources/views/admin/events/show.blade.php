@@ -205,6 +205,44 @@
 
         <!-- Sidebar -->
         <div class="col-lg-4">
+            <!-- Registration Stats -->
+            <div class="card bg-dark-gray border-accent mb-4">
+                <div class="card-header bg-primary border-accent">
+                    <h5 class="mb-0 text-white">
+                        <i class="fas fa-users me-2"></i> Event Registrations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded">
+                        <span class="text-light fw-semibold">Total Registered</span>
+                        <span class="badge bg-accent fs-6">{{ $event->registered_count }}</span>
+                    </div>
+                    
+                    @if($event->max_participants)
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-dark rounded">
+                            <span class="text-light fw-semibold">Capacity</span>
+                            <span class="badge bg-primary fs-6">{{ $event->registered_count }}/{{ $event->max_participants }}</span>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="progress mb-2" style="height: 8px;">
+                                @php $participantProgress = $event->max_participants > 0 ? ($event->registered_count / $event->max_participants) * 100 : 0; @endphp
+                                <div class="progress-bar bg-accent" style="width: {{ min($participantProgress, 100) }}%"></div>
+                            </div>
+                            @if($event->spots_remaining !== null)
+                                <small class="text-light">{{ $event->spots_remaining }} spots remaining</small>
+                            @endif
+                        </div>
+                    @endif
+                    
+                    <div class="d-grid">
+                        <a href="{{ route('admin.events.signups', $event) }}" class="btn btn-outline-accent text-white">
+                            <i class="fas fa-list me-2"></i> Manage Signups
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Status Card -->
             <div class="card bg-dark-gray border-accent mb-4">
                 <div class="card-header bg-primary border-accent">

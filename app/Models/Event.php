@@ -69,4 +69,82 @@ class Event extends Model
         
         return now()->diffInDays($this->event_date);
     }
+
+    public function signups()
+    {
+        return $this->hasMany(EventSignup::class);
+    }
+
+    public function registeredSignups()
+    {
+        return $this->hasMany(EventSignup::class)->where('status', 'registered');
+    }
+
+    public function getRegisteredCountAttribute()
+    {
+        return $this->registeredSignups()->count();
+    }
+
+    public function getSpotsRemainingAttribute()
+    {
+        if (!$this->max_participants) {
+            return null;
+        }
+        
+        return max(0, $this->max_participants - $this->registered_count);
+    }
+
+    public function isFull()
+    {
+        if (!$this->max_participants) {
+            return false;
+        }
+        
+        return $this->registered_count >= $this->max_participants;
+    }
+
+    public function canSignUp()
+    {
+        return $this->is_active 
+            && !$this->event_date->isPast() 
+            && (!$this->registration_deadline || !$this->registration_deadline->isPast())
+            && !$this->isFull();
+    }
+
+    public function isUserSignedUp($memberId)
+    {
+        return $this->signups()
+            ->where('member_id', $memberId)
+            ->where('status', 'registered')
+            ->exists();
+    }
+
+    public function signUpMember($memberId, $notes = null)
+    {
+        if (!$this->canSignUp() || $this->isUserSignedUp($memberId)) {
+            return false;
+        }
+
+        return $this->signups()->create([
+            'member_id' => $memberId,
+            'notes' => $notes,
+            'status' => 'registered',
+            'signed_up_at' => now(),
+        ]);
+    }
+
+    public function cancelSignup($memberId)
+    {
+        $signup = $this->signups()
+            ->where('member_id', $memberId)
+            ->where('status', 'registered')
+            ->first();
+
+        if ($signup) {
+            $signup->cancel();
+            return true;
+        }
+
+        return false;
+    }
 }

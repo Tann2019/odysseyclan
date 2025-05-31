@@ -285,6 +285,81 @@
             </div>
             @endif
 
+            <!-- Event Registration -->
+            @auth
+                @if(Auth::user()->member && Auth::user()->member->isVerified())
+                    <div class="card bg-dark-gray border-accent mb-4">
+                        <div class="card-header bg-primary border-accent">
+                            <h5 class="mb-0 text-white">
+                                <i class="fas fa-user-check me-2"></i> Event Registration
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            @if($event->max_participants)
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-light">Participants</span>
+                                        <span class="text-accent fw-bold">{{ $event->registered_count }}/{{ $event->max_participants }}</span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 8px;">
+                                        @php $participantProgress = $event->max_participants > 0 ? ($event->registered_count / $event->max_participants) * 100 : 0; @endphp
+                                        <div class="progress-bar bg-accent" style="width: {{ min($participantProgress, 100) }}%"></div>
+                                    </div>
+                                    @if($event->spots_remaining !== null)
+                                        <small class="text-light">{{ $event->spots_remaining }} spots remaining</small>
+                                    @endif
+                                </div>
+                            @endif
+
+                            @php $isSignedUp = $event->isUserSignedUp(Auth::user()->member->id); @endphp
+                            
+                            @if($isSignedUp)
+                                <div class="alert alert-success mb-3">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    You are registered for this event!
+                                </div>
+                                @if($event->event_date->isFuture())
+                                    <form method="POST" action="{{ route('events.cancel', $event) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-outline-danger btn-lg w-100" 
+                                                onclick="return confirm('Are you sure you want to cancel your registration?')">
+                                            <i class="fas fa-times me-2"></i> Cancel Registration
+                                        </button>
+                                    </form>
+                                @endif
+                            @else
+                                @if($event->canSignUp())
+                                    <form method="POST" action="{{ route('events.signup', $event) }}">
+                                        @csrf
+                                        <div class="mb-3">
+                                            <label for="notes" class="form-label text-light">Additional Notes (Optional)</label>
+                                            <textarea name="notes" id="notes" class="form-control bg-dark text-light border-secondary" 
+                                                    rows="3" placeholder="Any special requirements or comments..."></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-accent btn-lg w-100">
+                                            <i class="fas fa-user-plus me-2"></i> Sign Up for Event
+                                        </button>
+                                    </form>
+                                @else
+                                    <div class="btn btn-outline-secondary btn-lg w-100 disabled">
+                                        @if($event->isFull())
+                                            <i class="fas fa-users me-2"></i> Event Full
+                                        @elseif($event->event_date->isPast())
+                                            <i class="fas fa-history me-2"></i> Event Completed
+                                        @elseif($event->registration_deadline && $event->registration_deadline->isPast())
+                                            <i class="fas fa-clock me-2"></i> Registration Closed
+                                        @else
+                                            <i class="fas fa-ban me-2"></i> Registration Unavailable
+                                        @endif
+                                    </div>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            @endauth
+
             <!-- Quick Actions -->
             <div class="card bg-dark-gray border-accent mb-4">
                 <div class="card-header bg-primary border-accent">
@@ -294,27 +369,18 @@
                 </div>
                 <div class="card-body">
                     <div class="d-grid gap-3">
-                        @if($event->event_date->isFuture() && (!$event->registration_deadline || $event->registration_deadline->isFuture()))
-                            <a href="https://discord.gg/odyssey" class="btn btn-accent btn-lg" target="_blank">
-                                <i class="fab fa-discord me-2"></i> Join Event
-                            </a>
-                        @else
-                            <div class="btn btn-outline-secondary btn-lg disabled">
-                                @if($event->event_date->isPast())
-                                    <i class="fas fa-history me-2"></i> Event Completed
-                                @else
-                                    <i class="fas fa-clock me-2"></i> Registration Closed
-                                @endif
-                            </div>
-                        @endif
-                        
                         <a href="https://discord.gg/odyssey" class="btn btn-outline-primary btn-lg" target="_blank">
                             <i class="fab fa-discord me-2"></i> Join Our Discord
                         </a>
                         
-                        <a href="{{ route('join') }}" class="btn btn-outline-accent btn-lg">
-                            <i class="fas fa-user-plus me-2"></i> Join Odyssey Clan
-                        </a>
+                        @guest
+                            <a href="{{ route('login') }}" class="btn btn-accent btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i> Login to Sign Up
+                            </a>
+                            <a href="{{ route('join') }}" class="btn btn-outline-accent btn-lg">
+                                <i class="fas fa-user-plus me-2"></i> Join Odyssey Clan
+                            </a>
+                        @endguest
                     </div>
                 </div>
             </div>

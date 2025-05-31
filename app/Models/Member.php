@@ -147,4 +147,20 @@ class Member extends Model
         $this->verified_at = null;
         return $this->save();
     }
+
+    /**
+     * Get all event signups for this member
+     */
+    public function eventSignups()
+    {
+        return $this->hasMany(EventSignup::class);
+    }
+
+    /**
+     * Get current/active event signups
+     */
+    public function activeEventSignups()
+    {
+        return $this->hasMany(EventSignup::class)->where('status', 'registered');
+    }
 }

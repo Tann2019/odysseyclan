@@ -70,6 +70,10 @@ Route::middleware('auth')->group(function () {
     // Routes that require verified member status
     Route::get('/profile', [AuthController::class, 'dashboard'])->name('profile.dashboard');
     
+    // Event signup routes
+    Route::post('/events/{event}/signup', [App\Http\Controllers\EventController::class, 'signup'])->name('events.signup');
+    Route::delete('/events/{event}/signup', [App\Http\Controllers\EventController::class, 'cancelSignup'])->name('events.cancel');
+    
     // Admin Routes - Protected by middleware
     Route::prefix('admin')->middleware(\App\Http\Middleware\AdminMiddleware::class)->group(function () {
         // Admin dashboard
@@ -114,6 +118,10 @@ Route::middleware('auth')->group(function () {
             'update' => 'admin.events.update',
             'destroy' => 'admin.events.destroy',
         ]);
+        
+        // Event signup management
+        Route::get('/events/{event}/signups', [App\Http\Controllers\EventController::class, 'showSignups'])->name('admin.events.signups');
+        Route::patch('/events/{event}/signups/{signup}', [App\Http\Controllers\EventController::class, 'updateSignupStatus'])->name('admin.events.signups.update');
         
         // Gallery management
         Route::resource('gallery', App\Http\Controllers\GalleryController::class)->parameters([

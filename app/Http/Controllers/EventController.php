@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventSignup;
+use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -82,5 +84,80 @@ class EventController extends Controller
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event deleted successfully.');
+    }
+
+    public function signup(Request $request, Event $event)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'You must be logged in to sign up for events.');
+        }
+
+        $user = Auth::user();
+        $member = $user->member;
+
+        if (!$member || !$member->isVerified()) {
+            return back()->with('error', 'You must be a verified member to sign up for events.');
+        }
+
+        if (!$event->canSignUp()) {
+            return back()->with('error', 'This event is not available for signup.');
+        }
+
+        if ($event->isUserSignedUp($member->id)) {
+            return back()->with('error', 'You are already signed up for this event.');
+        }
+
+        $validated = $request->validate([
+            'notes' => 'nullable|string|max:500',
+        ]);
+
+        $signup = $event->signUpMember($member->id, $validated['notes'] ?? null);
+
+        if ($signup) {
+            return back()->with('success', 'Successfully signed up for the event!');
+        }
+
+        return back()->with('error', 'Unable to sign up for this event.');
+    }
+
+    public function cancelSignup(Event $event)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        $user = Auth::user();
+        $member = $user->member;
+
+        if (!$member) {
+            return back()->with('error', 'Member profile not found.');
+        }
+
+        if ($event->cancelSignup($member->id)) {
+            return back()->with('success', 'Your signup has been cancelled.');
+        }
+
+        return back()->with('error', 'Unable to cancel signup.');
+    }
+
+    public function showSignups(Event $event)
+    {
+        $signups = $event->signups()
+            ->with('member')
+            ->orderBy('signed_up_at')
+            ->paginate(20);
+
+        return view('admin.events.signups', compact('event', 'signups'));
+    }
+
+    public function updateSignupStatus(Request $request, Event $event, EventSignup $signup)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:registered,cancelled,attended,no_show',
+        ]);
+
+        $signup->update(['status' => $validated['status']]);
+
+        return back()->with('success', 'Signup status updated successfully.');
     }
 }
