@@ -247,8 +247,8 @@
         
         .hero-btn:hover {
             color: var(--dark);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
         }
         
         /* Cards & Sections */
@@ -282,8 +282,8 @@
         }
         
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             border-color: var(--accent);
         }
         
@@ -327,9 +327,9 @@
         }
         
         .member-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-2px);
             border-color: var(--accent);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .member-avatar {
@@ -344,7 +344,7 @@
         }
         
         .member-card:hover .member-avatar {
-            transform: scale(1.05);
+            transform: scale(1.02);
             border-width: 5px;
         }
         
@@ -402,7 +402,7 @@
         .social-links a:hover {
             background-color: var(--accent);
             color: var(--dark);
-            transform: translateY(-3px);
+            transform: translateY(-1px);
         }
         
         .footer-links {
@@ -422,7 +422,7 @@
         
         .footer-links a:hover {
             color: var(--accent);
-            transform: translateX(5px);
+            transform: translateX(2px);
         }
         
         .copyright {
@@ -628,7 +628,7 @@
         
         .btn-primary:hover {
             background-color: var(--primary-dark);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
         
         .btn-accent {
@@ -640,7 +640,7 @@
         
         .btn-accent:hover {
             background-color: var(--accent-dark);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
         
         .btn-outline {
@@ -653,7 +653,7 @@
         .btn-outline:hover {
             background-color: var(--accent);
             color: var(--dark);
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
         
         .btn-purple {
@@ -666,7 +666,7 @@
         .btn-purple:hover {
             background-color: #5a3a8b;
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
         }
         
         .text-purple {

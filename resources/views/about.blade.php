@@ -47,7 +47,7 @@
     }
     
     .leader-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-2px);
     }
     
     .leader-avatar {
@@ -57,7 +57,7 @@
     }
     
     .leader-card:hover .leader-avatar {
-        transform: scale(1.05);
+        transform: scale(1.02);
     }
     
     .leader-info {
@@ -78,9 +78,9 @@
     }
     
     .value-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-2px);
         border-color: var(--accent);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     }
     
     .value-icon {

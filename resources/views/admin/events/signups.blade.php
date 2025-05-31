@@ -146,7 +146,7 @@
                                 </td>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-sm btn-outline-accent dropdown-toggle" type="button" 
+                                        <button class="btn btn-sm btn-outline-accent dropdown-toggle text-white" type="button" 
                                                 data-bs-toggle="dropdown">
                                             <i class="fas fa-cog"></i>
                                         </button>

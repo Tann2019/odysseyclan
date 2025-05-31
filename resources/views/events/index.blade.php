@@ -223,8 +223,8 @@
 .btn-filter.active {
     color: var(--dark);
     border-color: var(--accent);
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(255, 215, 0, 0.2);
 }
 
 .event-card {
@@ -237,9 +237,9 @@
 }
 
 .event-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-2px);
     border-color: var(--accent);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
 .event-image-container {
@@ -256,7 +256,7 @@
 }
 
 .event-card:hover .event-image {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .event-overlay {
